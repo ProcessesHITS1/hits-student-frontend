@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
-import { Input } from '../common/Input';
-import { H5 } from '../common/H5';
-import { Button } from '../common/Button';
+import { Input } from './common/Input';
+import { H2 } from './common/Headers';
+import { Button } from './common/Button';
 
-export const LoginPage: FC = () => {
+export const Login: FC = () => {
     return (
         <div className='flex justify-center items-center h-full w-full'>
             <div className='h-full w-full bg-cover bg-tsu blur-sm absolute'></div>
@@ -20,7 +20,7 @@ const LoginCard: FC = () => {
 
     return (
         <div className="flex flex-col gap-5 border rounded-2xl bg-white md:w-1/2 lg:w-1/3 xl:1/4 py-10 px-8 sm:px-16 justify-center items-center backdrop-blur-lg">
-            <H5 text={"Вход в систему"}/>
+            <H2 text={"Вход в систему"}/>
             <Input type="email" placeholder="E-mail"/>
             <Input type="password" placeholder="Password"/>
             <Button className="bg-blue-500">
