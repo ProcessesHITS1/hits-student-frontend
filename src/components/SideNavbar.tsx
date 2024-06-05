@@ -14,7 +14,6 @@ export const SideNavbar = () => {
                     <NavOption text="Прогресс" activeLogoSrc={smileLogo} deactiveLogoSrc={smileLogo} to="/interviews" />
                 </nav>
             </div>
-            <Outlet />
         </div>
     );
 }
