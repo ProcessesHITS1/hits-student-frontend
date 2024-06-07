@@ -1,11 +1,12 @@
-import { FC, HTMLAttributes, PropsWithChildren } from "react";
+import { ButtonHTMLAttributes, FC, PropsWithChildren } from "react";
 
-type Props = PropsWithChildren & HTMLAttributes<HTMLButtonElement>;
+type Props = PropsWithChildren & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button: FC<Props> = props => {
+    const { className, children, ...restProps } = props;
     return (
-        <button className={`${props.className} w-full h-10 active:scale-90 transform transition duration-150`}>
-            {props.children}
+        <button className={`${className} w-full h-10 active:scale-90 transform transition duration-150`} {...restProps}>
+            {children}
         </button>
     )
 }
