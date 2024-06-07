@@ -7,7 +7,7 @@ import smileLogo from "../assets/smile.svg";
 export const SideNavbar = () => {
     return (
         <div className="flex flex-row h-full">
-            <div className="h-full">
+            <div className="h-full hidden lg:inline-block">
                 <nav className="w-80 bg-blue-900 h-full">
                     <NavOption text="Профиль" activeLogoSrc={avatarLogo} deactiveLogoSrc={avatarLogo} to="/profile" />
                     <NavOption text="Компании" activeLogoSrc={progressLogo} deactiveLogoSrc={progressLogo} to="/companies" />

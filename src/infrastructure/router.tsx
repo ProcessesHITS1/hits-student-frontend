@@ -1,4 +1,4 @@
-import { Companies } from "../components/Companies"
+import { Companies } from "../components/companies/Companies"
 import { Login } from "../components/Login"
 import { Profile } from "../components/Profile"
 import { SideNavbar } from "../components/SideNavbar"

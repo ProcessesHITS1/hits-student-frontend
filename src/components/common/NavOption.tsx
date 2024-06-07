@@ -16,7 +16,7 @@ export const NavOption: FC<Props> = props => {
         <NavLink 
             className={
                 ({ isActive, isPending, isTransitioning }) => 
-                    `flex flex-row items-center px-6 py-3 gap-3 ${ isSelected(isActive, isPending, isTransitioning) ? 'bg-slate-100 border-r-4 border-sky-400' : '' }`
+                    `flex flex-row items-center px-6 py-3 gap-3 ${ isSelected(isActive, isPending, isTransitioning) ? 'bg-slate-100 border-r-4 border-blue-900' : '' }`
             } 
             to={props.to}
         >
