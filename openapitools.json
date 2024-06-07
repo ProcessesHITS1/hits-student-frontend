@@ -4,10 +4,18 @@
   "generator-cli": {
     "version": "7.6.0",
     "generators": {
-      "axios": {
+      "chats": {
         "generatorName": "typescript-axios",
         "inputSpec": "http://localhost:5212/swagger/v1/swagger.json",
-        "output": "./src/api/client",
+        "output": "./src/api/clients/chats",
+        "additionalProperties": {
+          "supportsES6": true
+        }
+      },
+      "auth": {
+        "generatorName": "typescript-axios",
+        "inputSpec": "http://localhost:8080/v3/api-docs",
+        "output": "./src/api/clients/auth",
         "additionalProperties": {
           "supportsES6": true
         }
