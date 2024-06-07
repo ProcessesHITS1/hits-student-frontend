@@ -1,7 +1,7 @@
 export const ThreeDot = () => {
     return (
         <div className="flex flex-row gap-1 items-center">
-            {[...Array(3)].map(_ => <Dot />)}
+            {[...Array(3)].map((_, i) => <Dot key={i} />)}
         </div>
     );
 }

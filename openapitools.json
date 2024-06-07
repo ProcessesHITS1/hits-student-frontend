@@ -19,6 +19,22 @@
         "additionalProperties": {
           "supportsES6": true
         }
+      },
+      "companies": {
+        "generatorName": "typescript-axios",
+        "inputSpec": "http://localhost:8090/v3/api-docs",
+        "output": "./src/api/clients/companies",
+        "additionalProperties": {
+          "supportsES6": true
+        }
+      },
+      "interview": {
+        "generatorName": "typescript-axios",
+        "inputSpec": "http://localhost:5062/swagger/v1/swagger.json",
+        "output": "./src/api/clients/interview",
+        "additionalProperties": {
+          "supportsES6": true
+        }
       }
     }
   }

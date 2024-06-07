@@ -1,18 +1,16 @@
 import { FC, useMemo } from "react";
-import { PageInfoDto } from "../../../api/clients/auth";
 import { PaginationItem } from "./PaginationItem";
 import { ThreeDot } from "./ThreeDot";
 
 const PAGE_REDUCTION_THRESHOLD = 3;
 
 type Props = {
-    info: PageInfoDto;
+    currentPage: number;
+    totalPages: number;
 }
 
 export const Pagination: FC<Props> = props => {
-    const pageInfo = props.info;
-    const currentPage = pageInfo.pageNumber!;
-    const totalPages = pageInfo.total!;
+    const { currentPage, totalPages } = props;
 
     const isInBeginning = currentPage <= PAGE_REDUCTION_THRESHOLD;
     const isInEnd = currentPage >= totalPages - PAGE_REDUCTION_THRESHOLD + 1
@@ -22,7 +20,11 @@ export const Pagination: FC<Props> = props => {
     }
 
     const shownMiddlePages = useMemo(() => {
-        if (currentPage === 1) return [currentPage, currentPage + 1, currentPage + 2];
+        if (currentPage === 1) {
+            const lengthToShow = Math.min(PAGE_REDUCTION_THRESHOLD, totalPages);
+            return [...Array(lengthToShow)].map((_, i) => i + 1);
+        }
+        
         else if (currentPage === totalPages) return [currentPage - 2, currentPage - 1, currentPage];
         
         return [currentPage - 1, currentPage, currentPage + 1]
@@ -33,8 +35,8 @@ export const Pagination: FC<Props> = props => {
             <PaginationItem
                 key="previous"
                 text={"<"}
-                onPress={() => onItemPress(pageInfo.pageNumber!)} 
-                isDisabled={pageInfo.pageNumber! === 1}
+                onPress={() => onItemPress(currentPage)} 
+                isDisabled={currentPage === 1}
             />
             {
                 currentPage >= PAGE_REDUCTION_THRESHOLD &&
@@ -50,7 +52,7 @@ export const Pagination: FC<Props> = props => {
                     key={page}
                     text={page} 
                     onPress={() => onItemPress(page)}
-                    isSelected={pageInfo.pageNumber === page}
+                    isSelected={currentPage === page}
                 />
             )}
             {!isInEnd && <ThreeDot /> }
@@ -65,8 +67,8 @@ export const Pagination: FC<Props> = props => {
             <PaginationItem
                 key="next"
                 text={">"}
-                onPress={() => onItemPress(pageInfo.pageNumber!)}
-                isDisabled={pageInfo.pageNumber! === pageInfo.total!} 
+                onPress={() => onItemPress(currentPage)}
+                isDisabled={currentPage === currentPage} 
             />
         </div>
     );
