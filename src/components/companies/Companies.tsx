@@ -5,6 +5,7 @@ import { Pagination } from "../common/pagination/Pagination";
 import { PositionDetails } from "../../api/clients/interview";
 import { positionsApi, seasonsApi } from "../../infrastructure/api-clients";
 import { useAsyncEffect } from "../../infrastructure/use-async-effect";
+import { Search } from "../common/Search";
 
 export const Companies = () => {
     const [positions, setPositions] = useState<PositionDetails[] | undefined>();
@@ -21,19 +22,23 @@ export const Companies = () => {
         if (!positions.data) return;
     
         setPositions(positions.data);
-    }, [setPositions]);
+    }, []);
 
     return (
         <PageWithHeader headerText="Компании">
-            <div className="px-4 pt-5">
-                {positions && <Pagination currentPage={1} totalPages={Math.floor(positions?.length / 6) + 1}/>}
-                <div className="grid grid-rows-6 grid-cols-1 md:grid-rows-3 md:grid-cols-2 gap-4 mt-10">
+            <div className="flex flex-wrap px-4 pt-5">
+                <div className="flex gap-4 flex-col-reverse sm:flex-row w-full items-center sm:justify-between">
+                    {positions && <Pagination currentPage={1} totalPages={Math.floor(positions?.length / 6) + 1}/>}
+                    <Search />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-10 w-full h-full">
                     {
                         positions
                         && positions.map(position => 
                             <CompanyCard
                                 key={position.positionInfo?.id} 
-                                company={position.companyInfo?.name!} 
+                                positionId={position.positionInfo?.id!}
+                                companyName={position.companyInfo?.name!} 
                                 position={position.positionInfo?.title!} 
                                 numberOfPositions={position.positionInfo?.nPositions!} 
                                 contact={"name nameovich"} 

@@ -2,9 +2,12 @@ import { FC, useCallback } from "react";
 import { Button } from "../common/Button";
 import { H5 } from "../common/Headers";
 import { CommonText } from "../common/Text";
+import { getCurrentUserId } from "../../infrastructure/user-info-storage";
+import { requestApi } from "../../infrastructure/api-clients";
 
 type Props = {
-    company: string;
+    positionId: string;
+    companyName: string;
     position: string;
     numberOfPositions: number;
     contact: string;
@@ -12,14 +15,18 @@ type Props = {
 }
 
 export const CompanyCard: FC<Props> = props => {
-    const onButtonPress = useCallback(() => {
-        console.log('перехочешь')
-    }, []);
+    const onButtonPress = useCallback(async () => {
+        const userId = getCurrentUserId();
+
+        if (!userId) return;
+
+        await requestApi.apiRequestStudentStudentIdPositionPositionIdPost(userId, props.positionId);
+    }, [props.positionId]);
 
     return (
-        <div className="flex flex-col border border-slate-200">
+        <div className="flex flex-col border border-slate-200 w-full">
             <div className="flex flex-row border-b border-slate-200 items-center justify-between px-6 py-4">
-                <H5 text={props.company} />
+                <H5 text={props.companyName} />
                 <Button onClick={onButtonPress}>
                     <CommonText text="Хочу сюда!" className="text-blue-600" />
                 </Button>
