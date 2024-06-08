@@ -54,7 +54,7 @@ const LoginCard: FC = () => {
 
                 {isErrorShown && <span className='text-red-500'>Неверная почта или пароль</span>}
                 
-                <Button className="bg-blue-500" type="submit">
+                <Button className="bg-blue-500 w-full" type="submit">
                     <span className='text-white'>Войти</span>
                 </Button>
             </form>

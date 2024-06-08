@@ -16,3 +16,7 @@ export const H2: FC<Props> = props => {
 export const H4: FC<Props> = props => {
     return <Header text={props.text} classes={`text-xl ${props.color}`} />
 }
+
+export const H5: FC<Props> = props => {
+    return <Header text={props.text} classes={`text-base ${props.color}`} />
+}
