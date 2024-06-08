@@ -1,14 +1,22 @@
-import { Button } from "./Button";
+import { FC, useCallback } from "react";
 import { Input } from "./Input";
-import searchIcon from "../../assets/search-icon.svg";
+import { useDebouncedCallback } from "use-debounce";
 
-export const Search = () => {
+type Props = {
+    className?: string;
+    onSearch: (keyword?: string) => Promise<void>;
+}
+
+export const Search: FC<Props> = props => {
+    const onSearch = useCallback(async (keyword?: string) => {
+        await props.onSearch(keyword);
+    }, [props.onSearch]);
+
+    const debounced = useDebouncedCallback(onSearch, 1000);
+
     return (
-        <div className="flex flex-row">
-            <Input />
-            <Button className="px-4 py-3 bg-blue-500">
-                <img src={searchIcon} width={16} height={16}/>
-            </Button>
+        <div className={`flex flex-row gap-4 ${props.className} items-center`}>
+            <Input placeholder="Позиция..." onChange={e => debounced(e.target.value)}/>
         </div>
     );
 }
