@@ -9,6 +9,8 @@ export const useSetupAxios = () => {
         
         instance.defaults.validateStatus = () => true;
 
+        instance.defaults.timeout = 10000;
+
         instance.interceptors.request.use(accessTokenInterceptor);
         instance.interceptors.response.use(refreshTokenInterceptor)
     }, [])

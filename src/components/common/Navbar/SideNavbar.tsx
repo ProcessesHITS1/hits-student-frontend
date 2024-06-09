@@ -10,7 +10,7 @@ export const SideNavbar: FC<Props> = props => {
     return (
         <div className="h-full">
             <nav className="absolute h-full  w-80 bg-blue-900 hidden lg:block">
-                {props.routes.map(route => <NavOption {...route}/>)}
+                {props.routes.map(route => <NavOption {...route} key={route.text}/>)}
             </nav>
             <div className="flex w-full h-full lg:pl-80">
                 <Outlet />

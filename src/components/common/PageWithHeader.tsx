@@ -1,9 +1,10 @@
-import { FC, PropsWithChildren, ReactElement } from "react";
+import { FC, PropsWithChildren } from "react";
 import { H2 } from "./Headers";
+import { CommonText } from "./Text";
 
 type Props = PropsWithChildren & {
-    headerText: string;
-    headerChildren?: ReactElement;
+    headerText?: string;
+    textBelowHeader?: string | number;
 }
 
 export const PageWithHeader: FC<Props> = props => {
@@ -12,7 +13,7 @@ export const PageWithHeader: FC<Props> = props => {
             <div className="h-full w-full flex flex-col bg-neutral-100">
                 <div className="flex flex-col w-full py-3 items-center content-center justify-center bg-white min-h-20">
                     <H2 text={props.headerText} />
-                    {props.headerChildren}
+                    <CommonText text={props.textBelowHeader} />
                 </div>
                 <div className="py-8 px-6 w-full h-full">
                     <div className="bg-white w-full h-full rounded-xl">
