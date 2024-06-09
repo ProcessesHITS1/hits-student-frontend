@@ -2,7 +2,6 @@ import { FC, useCallback } from "react";
 import { Button } from "../common/Button";
 import { H5 } from "../common/Headers";
 import { CommonText } from "../common/Text";
-import { getCurrentUserId } from "../../infrastructure/user-info-storage";
 import { requestApi } from "../../infrastructure/api-clients";
 
 type Props = {
@@ -16,11 +15,7 @@ type Props = {
 
 export const CompanyCard: FC<Props> = props => {
     const onButtonPress = useCallback(async () => {
-        const userId = getCurrentUserId();
-
-        if (!userId) return;
-
-        await requestApi.apiRequestStudentStudentIdPositionPositionIdPost(userId, props.positionId);
+        await requestApi.apiRequestPositionPositionIdPost(props.positionId);
     }, [props.positionId]);
 
     return (
