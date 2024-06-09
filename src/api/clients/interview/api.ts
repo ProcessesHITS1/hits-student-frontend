@@ -57,6 +57,31 @@ export interface CompanyInSeasonInfo {
 /**
  * 
  * @export
+ * @interface PaginationInfo
+ */
+export interface PaginationInfo {
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationInfo
+     */
+    'currentPage'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationInfo
+     */
+    'totalPages'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationInfo
+     */
+    'pageSize'?: number;
+}
+/**
+ * 
+ * @export
  * @interface PositionData
  */
 export interface PositionData {
@@ -97,6 +122,25 @@ export interface PositionDetails {
      * @memberof PositionDetails
      */
     'companyInfo'?: CompanyInSeasonInfo;
+}
+/**
+ * 
+ * @export
+ * @interface PositionDetailsPaginatedItems
+ */
+export interface PositionDetailsPaginatedItems {
+    /**
+     * 
+     * @type {PaginationInfo}
+     * @memberof PositionDetailsPaginatedItems
+     */
+    'paginationInfo'?: PaginationInfo;
+    /**
+     * 
+     * @type {Array<PositionDetails>}
+     * @memberof PositionDetailsPaginatedItems
+     */
+    'items'?: Array<PositionDetails> | null;
 }
 /**
  * 
@@ -584,7 +628,7 @@ export const PositionsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiPositionSearchGet(companies?: Array<string>, q?: string, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PositionDetails>>> {
+        async apiPositionSearchGet(companies?: Array<string>, q?: string, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PositionDetailsPaginatedItems>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiPositionSearchGet(companies, q, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PositionsApi.apiPositionSearchGet']?.[localVarOperationServerIndex]?.url;
@@ -622,7 +666,7 @@ export const PositionsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPositionSearchGet(companies?: Array<string>, q?: string, page?: number, options?: any): AxiosPromise<Array<PositionDetails>> {
+        apiPositionSearchGet(companies?: Array<string>, q?: string, page?: number, options?: any): AxiosPromise<PositionDetailsPaginatedItems> {
             return localVarFp.apiPositionSearchGet(companies, q, page, options).then((request) => request(axios, basePath));
         },
         /**

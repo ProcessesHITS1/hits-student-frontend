@@ -7,6 +7,7 @@ const PAGE_REDUCTION_THRESHOLD = 3;
 type Props = {
     currentPage: number;
     totalPages: number;
+    onPagePress: (page: number) => Promise<void>;
 }
 
 export const Pagination: FC<Props> = props => {
@@ -14,10 +15,6 @@ export const Pagination: FC<Props> = props => {
 
     const isInBeginning = currentPage <= PAGE_REDUCTION_THRESHOLD;
     const isInEnd = currentPage >= totalPages - PAGE_REDUCTION_THRESHOLD + 1
-
-    const onItemPress = (page: number) => {
-        return Promise.resolve(console.log(page));   
-    }
 
     const shownMiddlePages = useMemo(() => {
         if (currentPage === 1) {
@@ -35,7 +32,7 @@ export const Pagination: FC<Props> = props => {
             <PaginationItem
                 key="previous"
                 text={"<"}
-                onPress={() => onItemPress(currentPage)} 
+                onPress={() => props.onPagePress(currentPage)} 
                 isDisabled={currentPage === 1}
             />
             {
@@ -43,7 +40,7 @@ export const Pagination: FC<Props> = props => {
                     <PaginationItem
                         key={1}
                         text="1"
-                        onPress={() => onItemPress(1)}
+                        onPress={() => props.onPagePress(1)}
                     />
             }
             {!isInBeginning && <ThreeDot /> }
@@ -51,7 +48,7 @@ export const Pagination: FC<Props> = props => {
                 <PaginationItem 
                     key={page}
                     text={page} 
-                    onPress={() => onItemPress(page)}
+                    onPress={() => props.onPagePress(page)}
                     isSelected={currentPage === page}
                 />
             )}
@@ -61,13 +58,13 @@ export const Pagination: FC<Props> = props => {
                 && <PaginationItem
                         key={totalPages}
                         text={totalPages}
-                        onPress={() => onItemPress(totalPages)}
+                        onPress={() => props.onPagePress(totalPages)}
                     />
             }
             <PaginationItem
                 key="next"
                 text={">"}
-                onPress={() => onItemPress(currentPage)}
+                onPress={() => props.onPagePress(currentPage)}
                 isDisabled={currentPage === currentPage} 
             />
         </div>
