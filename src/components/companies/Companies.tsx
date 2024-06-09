@@ -2,14 +2,14 @@ import { useCallback, useState } from "react";
 import { PageWithHeader } from "../common/PageWithHeader"
 import { CompanyCard } from "./CompanyCard"
 import { Pagination } from "../common/pagination/Pagination";
-import { PositionDetailsPaginatedItems } from "../../api/clients/interview";
+import { PositionInfoPaginatedItems } from "../../api/clients/interview";
 import { positionsApi, seasonsApi } from "../../infrastructure/api-clients";
 import { useAsyncEffect } from "../../infrastructure/use-async-effect";
 import { Search } from "../common/Search";
 import { ClipLoader } from "react-spinners";
 
 export const Companies = () => {
-    const [positions, setPositions] = useState<PositionDetailsPaginatedItems | undefined>();
+    const [positions, setPositions] = useState<PositionInfoPaginatedItems | undefined>();
     const [searchKeyword, setSearchKeyword] = useState<string | undefined>();
     const [isSearching, setIsSearching] = useState(false);
 
@@ -21,6 +21,7 @@ export const Companies = () => {
             if (!season.data.companies) return;
         
             const positions = await positionsApi.apiPositionSearchGet(
+                2011,
                 season.data.companies.map(x => x.id!),
                 keyword,
                 page
@@ -41,7 +42,7 @@ export const Companies = () => {
                     {positions && <Pagination 
                         currentPage={positions.paginationInfo?.currentPage!} 
                         totalPages={positions.paginationInfo?.totalPages!}
-                        onPagePress={page => search(searchKeyword, 1)}
+                        onPagePress={page => search(searchKeyword, page)}
                     />}
                     <Search onSearch={async keyword =>{
                         setSearchKeyword(keyword);
@@ -57,11 +58,11 @@ export const Companies = () => {
                             positions
                             && positions.items!.map(position => 
                                 <CompanyCard
-                                    key={position.positionInfo?.id} 
-                                    positionId={position.positionInfo?.id!}
-                                    companyName={position.companyInfo?.name!} 
-                                    position={position.positionInfo?.title!} 
-                                    numberOfPositions={position.positionInfo?.nPositions!} 
+                                    key={position.id} 
+                                    positionId={position.id!}
+                                    companyName={position.companyName!} 
+                                    position={position.title!} 
+                                    numberOfPositions={position.nSeats!} 
                                     contact={"name nameovich"} 
                                     tutor={"name nameovich"}                                
                                 />
