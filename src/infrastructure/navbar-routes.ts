@@ -1,4 +1,4 @@
-import { NavOptionProps } from "../components/common/NavOption";
+import { NavOptionProps } from "../components/common/Navbar/NavOption";
 import avatarLogoDark from "../assets/avatar-dark.svg";
 import avatarLogoLight from "../assets/avatar-light.svg";
 import progressLogoLight from "../assets/progress-light.svg";

@@ -3,6 +3,7 @@ import { Button } from "../common/Button";
 import { H5 } from "../common/Headers";
 import { CommonText } from "../common/Text";
 import { requestApi } from "../../infrastructure/api-clients";
+import { Card } from "../common/Card";
 
 type Props = {
     positionId: string;
@@ -19,21 +20,33 @@ export const CompanyCard: FC<Props> = props => {
     }, [props.positionId]);
 
     return (
-        <div className="flex flex-col border border-slate-200 w-full">
-            <div className="flex flex-row border-b border-slate-200 items-center justify-between px-6 py-4">
-                <H5 text={props.companyName} />
-                <Button onClick={onButtonPress}>
-                    <CommonText text="Хочу сюда!" className="text-blue-600" />
-                </Button>
-            </div>
-            <div className="flex flex-col p-4 gap-3">
-                <div className="flex flex-col gap-2">
-                    <CommonText text={`${props.position} | ${getPositionsString(props.numberOfPositions)}`} />
-                    <CommonText text={props.contact} className="text-black/45"/>
-                </div>
-                <CommonText text={props.tutor} className="text-black/45"/>
-            </div>
+        <Card 
+            header={<CardHeader companyName={props.companyName} onClick={onButtonPress} />} 
+            body={<CardBody position={props.position} contact={props.contact} tutor={props.tutor} nPos={props.numberOfPositions} />}
+        />
+    );
+}
+
+const CardHeader = (props: { companyName: string, onClick: () => void}) => {
+    return (
+        <div className="flex flex-row justify-between items-center">
+            <H5 text={props.companyName} color="text-black"/>
+            <Button onClick={props.onClick}>
+                <CommonText text="Хочу сюда!" className="text-blue-600" />
+            </Button>
         </div>
+    )
+}
+
+const CardBody = (props: { position: string, contact: string, tutor: string, nPos: number }) => {
+    return (
+        <>
+            <div className="flex flex-col gap-2">
+                <CommonText text={`${props.position} | ${getPositionsString(props.nPos)}`} className="text-black"/>
+                <CommonText text={props.contact} className="text-black/45"/>
+            </div>
+            <CommonText text={props.tutor} className="text-black/45"/>
+        </>
     );
 }
 
