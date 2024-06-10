@@ -3,10 +3,11 @@ import { PageWithHeader } from "../common/PageWithHeader"
 import { CompanyCard } from "./CompanyCard"
 import { Pagination } from "../common/pagination/Pagination";
 import { PositionInfoPaginatedItems } from "../../api/clients/interview";
-import { positionsApi, seasonsApi } from "../../infrastructure/api-clients";
+import { positionsApi } from "../../infrastructure/api-clients";
 import { useAsyncEffect } from "../../infrastructure/use-async-effect";
 import { Search } from "../common/Search";
 import { ClipLoader } from "react-spinners";
+import { CommonText } from "../common/Text";
 
 export const Companies = () => {
     const [positions, setPositions] = useState<PositionInfoPaginatedItems | undefined>();
@@ -16,13 +17,10 @@ export const Companies = () => {
     const search = useCallback(
         async (keyword?: string, page?: number) => {
             setIsSearching(true);
-            const season = await seasonsApi.apiSeasonYearGet(2011);
-    
-            if (!season.data.companies) return;
         
             const positions = await positionsApi.apiPositionSearchGet(
                 2011,
-                season.data.companies.map(x => x.id!),
+                [],
                 keyword,
                 page
             );
@@ -44,6 +42,7 @@ export const Companies = () => {
                         totalPages={positions.paginationInfo?.totalPages!}
                         onPagePress={page => search(searchKeyword, page)}
                     />}
+                    <div className="flex flex-grow"></div>
                     <Search onSearch={async keyword =>{
                         setSearchKeyword(keyword);
                         await search(keyword);
@@ -52,8 +51,9 @@ export const Companies = () => {
                 {isSearching ?
                     <div className="flex w-full h-full justify-center items-center">
                         <ClipLoader loading={isSearching} /> 
-                    </div>
-                    : <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-10 w-full">
+                    </div> : 
+                    positions?.items?.length ? 
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-10 w-full">
                         {
                             positions
                             && positions.items!.map(position => 
@@ -68,6 +68,9 @@ export const Companies = () => {
                                 />
                             )
                         }
+                    </div> :
+                    <div className="flex w-full h-full justify-center items-center">
+                        <CommonText text={"нитиво не нашлось :("} /> 
                     </div>
                 }
             </div>

@@ -1,15 +1,15 @@
-import { FC, ReactElement } from "react";
+import { FC } from "react";
 import { H4 } from "./Headers";
 import { NavLink } from "react-router-dom";
 
-type Props = {
+export type NavOptionProps = {
     to: string;
     text: string;
     activeLogoSrc: string;
     deactiveLogoSrc: string;
 }
 
-export const NavOption: FC<Props> = props => {
+export const NavOption: FC<NavOptionProps> = props => {
     const isSelected = (isActive: boolean, isPending: boolean, isTransitioning: boolean) => isActive || isPending || isTransitioning;
 
     return (
