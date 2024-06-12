@@ -3,14 +3,15 @@ import { PageWithHeader } from "../common/PageWithHeader";
 import { useParams } from "react-router-dom";
 import { H4 } from "../common/Headers";
 import { ProgressStepCard } from "./ProgressStepCard";
-import { Card } from "../common/Card";
+import { CommonText } from "../common/Text";
+import { PositionDescriptionCard } from "./PositionDescriptionCard";
 
 export const Progress: FC = () => {
     const { requestId } = useParams();
     return (
         <PageWithHeader headerText={requestId}>
-            <div className="flex flex-row gap-8 px-4 py-6 h-full">
-                <div className="flex flex-col items-center w-1/2 gap-5">
+            <div className="flex flex-col-reverse sm:flex-row gap-8 px-4 py-6">
+                <div className="flex flex-col items-center gap-5 w-full sm:w-5/12">
                     <H4 text="История статусов" />
                     <div className="flex flex-row gap-4 w-full">
                         <ProgressStepCard 
@@ -20,7 +21,9 @@ export const Progress: FC = () => {
                         />
                     </div>
                 </div>
-                <div className="w-full">
+                <div className="flex flex-col gap-6 w-full sm:w-7/12">
+                    <CommonText text={"статус тута типа..."} className="text-slate-400 w-full text-end" />
+                    <PositionDescriptionCard />
                 </div>
             </div>
         </PageWithHeader>

@@ -12,7 +12,7 @@ export const ProgressStepCard: FC<Props> = props => {
     return (
         <CardWithHeader 
             headerText={props.headerText} 
-            body={
+            body={() =>
                 <div className="flex flex-col gap-2">
                     {props.description && <CommonText text={props.description} className="text-black"/>}
                     <CommonText text={props.date.toLocaleDateString("ru")} className="text-black/45"/>

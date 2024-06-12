@@ -21,8 +21,8 @@ export const CompanyCard: FC<Props> = props => {
 
     return (
         <Card 
-            header={<CardHeader companyName={props.companyName} onClick={onButtonPress} />} 
-            body={<CardBody position={props.position} contact={props.contact} tutor={props.tutor} nPos={props.numberOfPositions} />}
+            header={() => <CardHeader companyName={props.companyName} onClick={onButtonPress} />} 
+            body={() => <CardBody position={props.position} contact={props.contact} tutor={props.tutor} nPos={props.numberOfPositions} />}
         />
     );
 }
