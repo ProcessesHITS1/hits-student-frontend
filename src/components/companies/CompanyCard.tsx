@@ -1,7 +1,7 @@
 import { FC, useCallback } from "react";
 import { Button } from "../common/Button";
 import { H5 } from "../common/Headers";
-import { CommonText } from "../common/Text";
+import { CommonText } from "../common/CommonText";
 import { requestApi } from "../../infrastructure/api-clients";
 import { Card } from "../common/Card";
 

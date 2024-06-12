@@ -14,6 +14,7 @@ type Props = {
     to: string;
     logo: string;
     items: ItemProps[]
+    onItemClick?: () => void;
 }
 
 export const MenuNavOption: FC<Props> = props => {
@@ -31,7 +32,7 @@ export const MenuNavOption: FC<Props> = props => {
                 <img src={isOpened ? closeMenuArrow : openMenuArrow}/>
             </div>
             <div className="flex flex-col">
-                {isOpened && props.items.map(item => <SubOption key={item.id} text={item.text} to={`${props.to}/${item.id}`}/>)}
+                {isOpened && props.items.map(item => <SubOption key={item.id} text={item.text} to={`${props.to}/${item.id}`} onClick={props.onItemClick}/>)}
             </div>
         </div>
     );

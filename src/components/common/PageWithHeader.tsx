@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from "react";
 import { H2 } from "./Headers";
-import { CommonText } from "./Text";
+import { CommonText } from "./CommonText";
 
 type Props = PropsWithChildren & {
     headerText?: string;

@@ -1,7 +1,7 @@
 import { Card } from "../common/Card"
 import { Contact } from "../common/Contact";
 import { H5 } from "../common/Headers";
-import { CommonText } from "../common/Text";
+import { CommonText } from "../common/CommonText";
 
 export const PositionDescriptionCard = () => {
     return (

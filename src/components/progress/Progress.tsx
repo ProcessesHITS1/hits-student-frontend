@@ -3,7 +3,7 @@ import { PageWithHeader } from "../common/PageWithHeader";
 import { useParams } from "react-router-dom";
 import { H4 } from "../common/Headers";
 import { ProgressStepCard } from "./ProgressStepCard";
-import { CommonText } from "../common/Text";
+import { CommonText } from "../common/CommonText";
 import { PositionDescriptionCard } from "./PositionDescriptionCard";
 
 export const Progress: FC = () => {

@@ -7,6 +7,7 @@ export type NavOptionProps = {
     text: string;
     activeLogoSrc: string;
     deactiveLogoSrc: string;
+    onClick?: () => void;
 }
 
 export const NavOption: FC<NavOptionProps> = props => {
@@ -18,6 +19,7 @@ export const NavOption: FC<NavOptionProps> = props => {
                     `flex px-6 py-3 ${ isActive ? 'bg-slate-100 border-r-4 border-blue-900' : '' }`
             } 
             to={props.to}
+            onClick={props.onClick}
         >
             {({ isActive }) => (
                 <NavOptionHeader 

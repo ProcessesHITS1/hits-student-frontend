@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { CardWithHeader } from "../common/CardWithHeader";
-import { CommonText } from "../common/Text";
+import { CommonText } from "../common/CommonText";
 
 type Props = {
     headerText: string;

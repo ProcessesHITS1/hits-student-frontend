@@ -7,7 +7,7 @@ import { positionsApi } from "../../infrastructure/api-clients";
 import { useAsyncEffect } from "../../infrastructure/use-async-effect";
 import { Search } from "../common/Search";
 import { ClipLoader } from "react-spinners";
-import { CommonText } from "../common/Text";
+import { CommonText } from "../common/CommonText";
 
 export const Companies = () => {
     const [positions, setPositions] = useState<PositionInfoPaginatedItems | undefined>();

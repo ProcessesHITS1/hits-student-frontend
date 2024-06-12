@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { CommonText } from "./Text";
+import { CommonText } from "./CommonText";
 
 type Props = {
     name: string;
