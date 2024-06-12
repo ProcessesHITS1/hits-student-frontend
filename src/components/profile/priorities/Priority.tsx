@@ -2,15 +2,23 @@ import { FC } from "react"
 import { UnderlinedItem } from "../../common/UnderlinedItem";
 import { H5 } from "../../common/Headers";
 
-export const Priority: FC = () => {
+type Props = {
+    name: string;
+    onUp: () => void;
+    onDown: () => void;
+    isFirst: boolean;
+    isLast: boolean;
+}
+
+export const Priority: FC<Props> = props => {
     return (
         <UnderlinedItem>
             <div className="w-full flex flex-row gap-4 items-center">
                 <div className="flex flex-col gap-1">
-                    <div className="w-2 h-3 rounded-t-full bg-red-900"></div>
-                    <div className="w-2 h-3 rounded-b-full bg-red-900"></div>
+                    {!props.isFirst && <div className="w-2 h-3 rounded-t-full bg-blue-500" onClick={props.onUp}></div>}
+                    {!props.isLast && <div className="w-2 h-3 rounded-b-full bg-blue-500" onClick={props.onDown}></div>}
                 </div>
-                <H5 text="[MCC-Tomsk] prisma balls xdddddd lmao" color="text-black/85"/>
+                <H5 text={props.name} color="text-black/85"/>
             </div>
         </UnderlinedItem>
     );
