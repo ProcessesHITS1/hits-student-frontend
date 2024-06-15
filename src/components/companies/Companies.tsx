@@ -4,42 +4,37 @@ import { CompanyCard } from "./CompanyCard"
 import { Pagination } from "../common/pagination/Pagination";
 import { PositionInfoPaginatedItems } from "../../api/clients/interview";
 import { positionsApi } from "../../infrastructure/api-clients";
-import { useAsyncEffect } from "../../infrastructure/use-async-effect";
 import { Search } from "../common/Search";
 import { ClipLoader } from "react-spinners";
 import { CommonText } from "../common/CommonText";
+import { useQuery } from "../../infrastructure/use-query";
+
+type QueryParams = {
+    keyword?: string;
+    page?: number;
+}
 
 export const Companies = () => {
-    const [positions, setPositions] = useState<PositionInfoPaginatedItems | undefined>();
-    const [searchKeyword, setSearchKeyword] = useState<string | undefined>();
-    const [isSearching, setIsSearching] = useState(false);
+    const [searchKeyword, setSearchKeyword] = useState<string | undefined>(undefined);
+
+    const { isLoading, data: positions, refetch } = useQuery<QueryParams, PositionInfoPaginatedItems>(
+        params => positionsApi.apiPositionSearchGet(
+            2011, [], params?.keyword, params?.page
+        )
+    );
 
     const search = useCallback(
-        async (keyword?: string, page?: number) => {
-            setIsSearching(true);
-        
-            const positions = await positionsApi.apiPositionSearchGet(
-                2011,
-                [],
-                keyword,
-                page
-            );
-        
-            if (!positions.data) return;
-            
-            setIsSearching(false);
-            setPositions(positions.data);
-        }, [setPositions])
-
-    useAsyncEffect(search, [search]);
+        (keyword?: string, page?: number) => refetch({ keyword: keyword, page: page}), 
+        [refetch]
+    );
 
     return (
         <PageWithHeader headerText="Компании">
             <div className="flex flex-col px-4 pt-5 h-full" >
                 <div className="flex flex-col-reverse sm:flex-row w-full items-center h-fit sm:justify-between">
-                    {positions && <Pagination 
-                        currentPage={positions.paginationInfo?.currentPage!} 
-                        totalPages={positions.paginationInfo?.totalPages!}
+                    {positions?.paginationInfo && <Pagination 
+                        currentPage={positions.paginationInfo.currentPage!} 
+                        totalPages={positions.paginationInfo.totalItems!}
                         onPagePress={page => search(searchKeyword, page)}
                     />}
                     <div className="flex flex-grow"></div>
@@ -48,9 +43,9 @@ export const Companies = () => {
                         await search(keyword);
                     }}/>
                 </div>
-                {isSearching ?
+                {isLoading ?
                     <div className="flex w-full h-full justify-center items-center">
-                        <ClipLoader loading={isSearching} /> 
+                        <ClipLoader loading={isLoading} /> 
                     </div> : 
                     positions?.items?.length ? 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-10 w-full">
@@ -74,7 +69,6 @@ export const Companies = () => {
                     </div>
                 }
             </div>
-            
         </PageWithHeader>
     )
 }

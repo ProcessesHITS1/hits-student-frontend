@@ -15,8 +15,8 @@ export const Priority: FC<Props> = props => {
         <UnderlinedItem>
             <div className="w-full flex flex-row gap-4 items-center">
                 <div className="flex flex-col gap-1">
-                    {!props.isFirst && <div className="w-2 h-3 rounded-t-full bg-blue-500" onClick={props.onUp}></div>}
-                    {!props.isLast && <div className="w-2 h-3 rounded-b-full bg-blue-500" onClick={props.onDown}></div>}
+                    {!props.isFirst && <div className="w-2 h-3 rounded-t-full bg-blue-500 hover:cursor-pointer" onClick={props.onUp}></div>}
+                    {!props.isLast && <div className="w-2 h-3 rounded-b-full bg-blue-500 hover:cursor-pointer" onClick={props.onDown}></div>}
                 </div>
                 <H5 text={props.name} color="text-black/85"/>
             </div>

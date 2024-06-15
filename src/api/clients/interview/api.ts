@@ -71,7 +71,7 @@ export interface PaginationInfo {
      * @type {number}
      * @memberof PaginationInfo
      */
-    'totalPages'?: number;
+    'totalItems'?: number;
     /**
      * 
      * @type {number}
@@ -246,12 +246,6 @@ export type RequestStatus = typeof RequestStatus[keyof typeof RequestStatus];
 export interface Season {
     /**
      * 
-     * @type {string}
-     * @memberof Season
-     */
-    'id'?: string;
-    /**
-     * 
      * @type {number}
      * @memberof Season
      */
@@ -268,6 +262,18 @@ export interface Season {
      * @memberof Season
      */
     'seasonEnd'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Season
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Season
+     */
+    'isClosed'?: boolean;
 }
 /**
  * 
@@ -343,6 +349,12 @@ export interface StudentInfo {
      * @memberof StudentInfo
      */
     'employmentStatus'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof StudentInfo
+     */
+    'companyId'?: string | null;
 }
 
 /**
@@ -1371,6 +1383,44 @@ export const SeasonsApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Завершает текущий сезон. После завершения в нем нельзя создавать заявки и добавлять компании
+         * @param {number} year The year of the season to close.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSeasonYearClosePost: async (year: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'year' is not null or undefined
+            assertParamExists('apiSeasonYearClosePost', 'year', year)
+            const localVarPath = `/api/season/{year}/close`
+                .replace(`{${"year"}}`, encodeURIComponent(String(year)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Удаляет сезон.
          * @param {number} year The year of the season to delete.
          * @param {*} [options] Override http request option.
@@ -1419,6 +1469,44 @@ export const SeasonsApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'year' is not null or undefined
             assertParamExists('apiSeasonYearGet', 'year', year)
             const localVarPath = `/api/season/{year}`
+                .replace(`{${"year"}}`, encodeURIComponent(String(year)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Получает информацию о сезоне.
+         * @param {number} year The year of the season to retrieve.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSeasonYearInfoGet: async (year: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'year' is not null or undefined
+            assertParamExists('apiSeasonYearInfoGet', 'year', year)
+            const localVarPath = `/api/season/{year}/info`
                 .replace(`{${"year"}}`, encodeURIComponent(String(year)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1547,6 +1635,19 @@ export const SeasonsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Завершает текущий сезон. После завершения в нем нельзя создавать заявки и добавлять компании
+         * @param {number} year The year of the season to close.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSeasonYearClosePost(year: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonYearClosePost(year, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SeasonsApi.apiSeasonYearClosePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Удаляет сезон.
          * @param {number} year The year of the season to delete.
          * @param {*} [options] Override http request option.
@@ -1570,6 +1671,19 @@ export const SeasonsApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonYearGet(year, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SeasonsApi.apiSeasonYearGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Получает информацию о сезоне.
+         * @param {number} year The year of the season to retrieve.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSeasonYearInfoGet(year: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Season>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonYearInfoGet(year, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SeasonsApi.apiSeasonYearInfoGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -1620,6 +1734,16 @@ export const SeasonsApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Завершает текущий сезон. После завершения в нем нельзя создавать заявки и добавлять компании
+         * @param {number} year The year of the season to close.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSeasonYearClosePost(year: number, options?: any): AxiosPromise<void> {
+            return localVarFp.apiSeasonYearClosePost(year, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Удаляет сезон.
          * @param {number} year The year of the season to delete.
          * @param {*} [options] Override http request option.
@@ -1638,6 +1762,16 @@ export const SeasonsApiFactory = function (configuration?: Configuration, basePa
          */
         apiSeasonYearGet(year: number, options?: any): AxiosPromise<SeasonDetails> {
             return localVarFp.apiSeasonYearGet(year, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Получает информацию о сезоне.
+         * @param {number} year The year of the season to retrieve.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSeasonYearInfoGet(year: number, options?: any): AxiosPromise<Season> {
+            return localVarFp.apiSeasonYearInfoGet(year, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1683,6 +1817,18 @@ export class SeasonsApi extends BaseAPI {
 
     /**
      * 
+     * @summary Завершает текущий сезон. После завершения в нем нельзя создавать заявки и добавлять компании
+     * @param {number} year The year of the season to close.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SeasonsApi
+     */
+    public apiSeasonYearClosePost(year: number, options?: RawAxiosRequestConfig) {
+        return SeasonsApiFp(this.configuration).apiSeasonYearClosePost(year, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Удаляет сезон.
      * @param {number} year The year of the season to delete.
      * @param {*} [options] Override http request option.
@@ -1704,6 +1850,18 @@ export class SeasonsApi extends BaseAPI {
      */
     public apiSeasonYearGet(year: number, options?: RawAxiosRequestConfig) {
         return SeasonsApiFp(this.configuration).apiSeasonYearGet(year, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Получает информацию о сезоне.
+     * @param {number} year The year of the season to retrieve.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SeasonsApi
+     */
+    public apiSeasonYearInfoGet(year: number, options?: RawAxiosRequestConfig) {
+        return SeasonsApiFp(this.configuration).apiSeasonYearInfoGet(year, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

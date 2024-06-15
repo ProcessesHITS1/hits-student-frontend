@@ -23,7 +23,7 @@ export const Pagination: FC<Props> = props => {
         }
         
         else if (currentPage === totalPages) return [currentPage - 2, currentPage - 1, currentPage];
-        
+
         return [currentPage - 1, currentPage, currentPage + 1]
     }, [currentPage, totalPages]);
 
