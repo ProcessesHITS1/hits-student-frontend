@@ -2,5 +2,6 @@ export enum Routes {
     Login = "login",
     Companies = "companies",
     Profile = "profile",
-    Progress = "progress"
-};
+    Progress = "progress",
+    Chats = "chats"
+}

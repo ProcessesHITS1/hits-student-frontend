@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 type Props = {
-    text?: string | number;
+    text: string | number;
     className?: string;
 }
 

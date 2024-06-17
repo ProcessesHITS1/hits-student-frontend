@@ -1,8 +1,7 @@
+import { LARGE_SCREEN_BREAKPOINT_PX } from "../../../infrastructure/constants";
 import { useWindowDimensions } from "../../../infrastructure/use-window-dimensions";
 import { BurgerNavbar } from "./BurgerNavbar";
 import { SideNavbar } from "./SideNavbar";
-
-const LARGE_SCREEN_BREAKPOINT_PX = 1024;
 
 export const NavbarContainer = () => {
     const { width } = useWindowDimensions();

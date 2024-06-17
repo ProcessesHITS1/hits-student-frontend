@@ -3,7 +3,7 @@ import { useSetupAxios } from "../infrastructure/use-setup-axios"
 import { getAccessToken } from "../infrastructure/access-token-storage";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
-export const Root: FC<PropsWithChildren> = props => {
+export const Root: FC<PropsWithChildren> = () => {
     const navigate = useNavigate();
     const location = useLocation();
     useSetupAxios();
@@ -12,7 +12,12 @@ export const Root: FC<PropsWithChildren> = props => {
         const token = getAccessToken();
 
         if (!token) navigate("/login");
-        else if (location.pathname === '/') navigate("profile");
+        else if (
+            location.pathname === '/' 
+            || location.pathname === "/login"
+        ) {
+            navigate("profile");
+        }
     }, [navigate]);
 
     return (
