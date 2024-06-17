@@ -1,18 +1,15 @@
 import { Outlet } from "react-router-dom";
-import { NavOption, NavOptionProps } from "../NavOption";
 import { FC } from "react";
 
-type Props = {
-    routes: NavOptionProps[]
-}
+import { NavOptionsContainer } from "./NavOptionsContainer";
 
-export const SideNavbar: FC<Props> = props => {
+export const SideNavbar: FC = () => {
     return (
         <div className="h-full">
-            <nav className="absolute h-full  w-80 bg-blue-900 hidden lg:block">
-                {props.routes.map(route => <NavOption {...route} key={route.text}/>)}
-            </nav>
-            <div className="flex w-full h-full lg:pl-80">
+            <div className="absolute h-full w-80 bg-blue-900">
+                <NavOptionsContainer />
+            </div>
+            <div className="flex w-full h-full pl-80">
                 <Outlet />
             </div>
         </div>

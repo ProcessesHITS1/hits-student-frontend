@@ -1,5 +1,5 @@
 import { H5 } from "../../common/Headers";
-import { CommonText } from "../../common/Text";
+import { CommonText } from "../../common/CommonText";
 import { UnderlinedItem } from "../../common/UnderlinedItem";
 
 export const Offer = () => {

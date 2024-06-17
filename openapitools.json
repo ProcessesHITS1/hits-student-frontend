@@ -6,7 +6,7 @@
     "generators": {
       "chats": {
         "generatorName": "typescript-axios",
-        "inputSpec": "http://localhost:5212/swagger/v1/swagger.json",
+        "inputSpec": "http://localhost:8010/swagger/v1/swagger.json",
         "output": "./src/api/clients/chats",
         "additionalProperties": {
           "supportsES6": true
@@ -30,7 +30,7 @@
       },
       "interview": {
         "generatorName": "typescript-axios",
-        "inputSpec": "http://localhost:5062/swagger/v1/swagger.json",
+        "inputSpec": "http://localhost:8081/swagger/v1/swagger.json",
         "output": "./src/api/clients/interview",
         "additionalProperties": {
           "supportsES6": true

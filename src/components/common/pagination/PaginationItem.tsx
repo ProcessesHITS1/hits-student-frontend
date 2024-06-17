@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button } from "../Button";
-import { CommonText } from "../Text";
+import { CommonText } from "../CommonText";
 
 type Props = {
     text: string | number;
