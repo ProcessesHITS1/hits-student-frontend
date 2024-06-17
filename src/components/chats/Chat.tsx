@@ -25,9 +25,9 @@ export const Chat: FC<Props> = props => {
             onClick={props.onPress}
         >
             <div className="w-12 h-12 bg-blue-300" />
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 items-start">
                 <H5 text={props.name}/>
-                <CommonText text={formatMessageText(props.lastMessage)}/>
+                <CommonText text={formatMessageText(props.lastMessage)} className="text-black/45"/>
             </div>
         </div>
     );
