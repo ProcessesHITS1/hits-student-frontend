@@ -9,6 +9,10 @@ export const Root: FC<PropsWithChildren> = () => {
     useSetupAxios();
 
     useEffect(() => {
+        if (import.meta.env.VITE_AUTH_ENABLED === "false") {
+            return;
+        }
+
         const token = getAccessToken();
 
         if (!token) navigate("/login");

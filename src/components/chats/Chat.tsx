@@ -8,9 +8,10 @@ type MessageProps = {
 }
 
 export type CommonChatProps = {
-    name: string;
+    name: string | null;
     lastMessage: MessageProps;
     id: string;
+    isActive?: boolean;
 }
 
 type Props = CommonChatProps & {
@@ -18,15 +19,14 @@ type Props = CommonChatProps & {
 }
 
 export const Chat: FC<Props> = props => {
-
     return (
         <div 
-            className="flex flex-row items-center gap-4 p-4 border-b border-slate-200 hover:cursor-pointer hover:opacity-70" 
+            className={`flex flex-row items-center gap-4 p-4 hover:cursor-pointer hover:opacity-70 ${props.isActive ? 'border border-blue-500' : 'border-b border-slate-200'}`} 
             onClick={props.onPress}
         >
             <div className="w-12 h-12 bg-blue-300" />
-            <div className="flex flex-col gap-2">
-                <H5 text={props.name}/>
+            <div className="flex flex-col gap-2 items-start">
+                <H5 text={props.name ?? ''}/>
                 <CommonText text={formatMessageText(props.lastMessage)}/>
             </div>
         </div>

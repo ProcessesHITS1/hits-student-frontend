@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { FC, act, useCallback, useState } from "react";
 import { PageWithHeader } from "../common/PageWithHeader";
 import { ChatDialog } from "./ChatDialog";
 import { LARGE_SCREEN_BREAKPOINT_PX } from "../../infrastructure/constants";
@@ -6,10 +6,14 @@ import { useWindowDimensions } from "../../infrastructure/use-window-dimensions"
 import { Button } from "../common/Button";
 import { CommonText } from "../common/CommonText";
 import { ChatList } from "./ChatList";
+import { useQuery } from "../../infrastructure/use-query";
+import { chatsApi } from "../../infrastructure/api-clients";
 
 export const Chats: FC = () => {
     const { width } = useWindowDimensions();
     const isWindowSmall = width < LARGE_SCREEN_BREAKPOINT_PX;
+    
+    const {data: chats} = useQuery(() => chatsApi.chatsMyGet());
     
     const [isChatListShown, setIsChatListShown] = useState<boolean>(!isWindowSmall);
     const toggleChatListShown = useCallback(() => setIsChatListShown(v => !v), []);
@@ -31,14 +35,20 @@ export const Chats: FC = () => {
                     }
                     {isChatListShown &&
                         <div className={`absolute w-full bg-white ${isWindowSmall ? 'top-10' : ''}`}>
-                            <ChatList 
-                                items={[
-                                    { id: "1", name: "sofiko", lastMessage: { text: "znzk.", byCurrentUser: true } }, 
-                                    { id: "1", name: "sofiko", lastMessage: { text: "znzk.", byCurrentUser: true } },
-                                ]}
-                                isShown={isChatListShown}
-                                onChatPress={onChatPress}
-                            />
+                            {chats && 
+                                <ChatList 
+                                    items={chats.map(chat => (
+                                        { 
+                                            id: chat.id, 
+                                            name: chat.name, 
+                                            lastMessage: { text: 'last message', byCurrentUser: false },
+                                            isActive: chat.id === activeChatId
+                                        }
+                                    ))}
+                                    isShown={isChatListShown}
+                                    onChatPress={onChatPress}
+                                />
+                            }
                         </div>
                     }
                 </div>
