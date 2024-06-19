@@ -9,7 +9,7 @@ type MessageProps = {
 
 export type CommonChatProps = {
     name: string | null;
-    lastMessage: MessageProps;
+    lastMessage?: MessageProps;
     id: string;
     isActive?: boolean;
 }
@@ -27,7 +27,7 @@ export const Chat: FC<Props> = props => {
             <div className="w-12 h-12 bg-blue-300" />
             <div className="flex flex-col gap-2 items-start">
                 <H5 text={props.name ?? ''}/>
-                <CommonText text={formatMessageText(props.lastMessage)}/>
+                {props.lastMessage && <CommonText text={formatMessageText(props.lastMessage)}/>}
             </div>
         </div>
     );
