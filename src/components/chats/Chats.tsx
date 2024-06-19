@@ -8,12 +8,17 @@ import { CommonText } from "../common/CommonText";
 import { ChatList } from "./ChatList";
 import { useQuery } from "../../infrastructure/use-query";
 import { chatsApi } from "../../infrastructure/api-clients";
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { getAccessToken } from "../../infrastructure/access-token-storage";
 import { useAsyncEffect } from "../../infrastructure/use-async-effect";
 import { CommonChatProps } from "./Chat";
 import { getUserClaims } from "../../infrastructure/user-claims";
 import { Message } from "../../infrastructure/signalr-utils";
+import { MessageDto } from "../../api/clients/chats";
+
+type QueryParams = {
+    chatId: string;
+};
 
 export const Chats: FC = () => {
     const { width } = useWindowDimensions();
@@ -21,10 +26,36 @@ export const Chats: FC = () => {
     
     const chatsQuery = useQuery(() => chatsApi.chatsMyGet());
     const [chats, setChats] = useState<CommonChatProps[]>([]);
+
     const [activeChatId, setActiveChatId] = useState<string | undefined>();
+    const { refetch, data: chatMessages }
+        = useQuery<QueryParams, MessageDto[]>(
+            params => chatsApi.chatsChatIdMessagesGet(params.chatId),
+            { chatId: activeChatId ?? "" }
+        )
+    const [activeChatMessages, setActiveChatMessages] = useState(chatMessages ?? []);
+
+    useEffect(() => {
+        if (!chatMessages) return;
+        setActiveChatMessages(chatMessages);
+    }, [chatMessages]);
+
+    useEffect(() => {
+        if (!activeChatId) return;
+        refetch({ chatId: activeChatId });
+    }, [activeChatId])
     
     const [isChatListShown, setIsChatListShown] = useState<boolean>(!isWindowSmall);
     const toggleChatListShown = useCallback(() => setIsChatListShown(v => !v), []);
+
+    const [connection, setConnection] = useState<HubConnection | undefined>();
+    const onSend = useCallback(async (msg: Message) => {
+        if (!connection) return;
+
+        await connection.invoke<Message>("Send", msg);
+    }, [connection])
+
+    useEffect(() => setIsChatListShown(!isWindowSmall || false), [isWindowSmall, setIsChatListShown])
     
     const onChatPress = useCallback((id: string) => {
         setChats(prev => {
@@ -62,23 +93,37 @@ export const Chats: FC = () => {
             .configureLogging(LogLevel.Debug)
             .build();
         
-        connection.on("Send", data => setChats(prev => {
-            const chat = prev.find(c => c.id === data.chatId);
+        connection.on("Send", data => {
+            setChats(prev => {
+                const chat = prev.find(c => c.id === data.chatId);
+    
+                if (chat) {
+                    const claims = getUserClaims();
+                    chat.lastMessage = { text: data.message, byCurrentUser: data.author === claims?.id };
+                }
+    
+                return [...prev];
+            })
 
-            if (chat) {
-                const claims = getUserClaims();
-                chat.lastMessage = { text: data.message, byCurrentUser: data.author === claims?.id };
+            if(data.chatId === activeChatId) {
+                setActiveChatMessages(prev => {
+                    prev.push({
+                        id: data.id,
+                        chatId: data.chatId,
+                        author: data.author,
+                        message: data.message,
+                        sentAt: data.sentAt,
+                        attachments: data.attachments
+                    });
+
+                    return [...prev];
+                })
             }
-
-            return [...prev];
-        }));
+        });
 
         await connection.start();
-        await connection.invoke<Message>("Send", {
-            Message: "amoga",
-            ChatId: "651a7767-fe08-4e34-ab42-80dad604ca51"
-        });
-    }, [])
+        setConnection(connection);
+    }, [activeChatId])
 
     return (
         <PageWithHeader headerText="Сообщения">
@@ -102,7 +147,7 @@ export const Chats: FC = () => {
                     }
                 </div>
                 <div className="w-full h-full lg:w-2/3">
-                    <ChatDialog chatId={activeChatId} />
+                    <ChatDialog chatId={activeChatId} onSend={onSend} messages={activeChatMessages}/>
                 </div>
             </div>
         </PageWithHeader>   

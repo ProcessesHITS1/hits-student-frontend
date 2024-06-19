@@ -11,3 +11,7 @@ html, body {
 #root {
     flex-grow: 1;
 }
+
+.hidden-scrollbar {
+    scrollbar-width: none;
+}
