@@ -11,7 +11,8 @@ export const ChatList: FC<Props> = props => {
     return (
         <div className="h-full w-full">
             {props.isShown && props.items.map(chat => 
-                <Chat 
+                <Chat
+                    key={chat.id} 
                     {...chat} 
                     onPress={() => props.onChatPress(chat.id)}
                 />

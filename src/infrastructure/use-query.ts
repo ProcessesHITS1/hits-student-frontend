@@ -4,9 +4,13 @@ import { AxiosResponse } from "axios";
 
 type Request<TParams, TResult> = (params: TParams) => Promise<AxiosResponse<TResult, any>>;
 
+type DeepRequired<T> = {
+    [K in keyof T]: Required<DeepRequired<T[K]>>
+};
+
 export type QueryProperties<TParams, TResult> = {
     isLoading: boolean;
-    data?: Required<TResult>;
+    data?: DeepRequired<TResult>;
     refetch: (params?: TParams) => Promise<void>;
 };
 
@@ -29,7 +33,7 @@ export function useQuery<TParams, TResult>(
     defaultParams?: TParams
 ): QueryProperties<TParams, TResult> {
     const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState<Required<TResult> | undefined>();
+    const [data, setData] = useState<DeepRequired<TResult> | undefined>();
 
     const refetch = useCallback(
         async (params?: TParams) => {
@@ -39,12 +43,7 @@ export function useQuery<TParams, TResult>(
 
             if (!response.data) return;
 
-            const obj = {} as any;
-            for (const [key, value] of Object.entries(response.data)) {
-                obj[key] = value;
-            }
-
-            setData(obj as Required<TResult>);
+            setData(requirify(response.data));
         },
         [setData, setIsLoading, defaultParams]
     );
@@ -52,4 +51,36 @@ export function useQuery<TParams, TResult>(
     useAsyncEffect(() => refetch(defaultParams), []);
 
     return { isLoading, data, refetch }
+}
+
+function requirify<T extends object>(target: T): DeepRequired<T>;
+function requirify<T extends object>(target: T[]): DeepRequired<T>[];
+function requirify<T extends object>(target: T | T[]): DeepRequired<T> | DeepRequired<T>[] {
+    if (Array.isArray(target)) {
+        return target.map(t => requirify(t));
+    }
+
+    if (typeof target === 'object') {
+        const obj = {} as any;
+
+        for (const [key, value] of Object.entries(target)) {
+            if (typeof value === 'object') {
+                obj[key] = requirify(value);
+                continue;
+            }
+    
+            if (Array.isArray(value)) {
+                const arr = [] as typeof value;
+                value.forEach(v => arr.push(requirify(v)));
+                obj[key] = arr;
+                continue;
+            }
+    
+            obj[key] = value;
+        }
+
+        return obj;
+    }
+
+    return target as DeepRequired<T>;
 }
