@@ -5,7 +5,7 @@ type Props = InputHTMLAttributes<HTMLInputElement> & RefAttributes<HTMLInputElem
 export const Input = forwardRef((props: Props, ref: ForwardedRef<HTMLInputElement>) => {
     return <input
         ref={ref}
-        className="border border-slate-300 w-full h-10 py-2 px-3 placeholder:text-opacity-85" 
+        className="border border-slate-300 w-full h-10 py-2 px-3 placeholder:text-opacity-85 focus:outline-none" 
         {...props}
     />
 })

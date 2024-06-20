@@ -80,7 +80,7 @@ export const Chats: FC = () => {
             chat => ({ 
                 id: chat.id, 
                 name: chat.name, 
-                isActive: false
+                isActive: false,
             })
         ))
 
