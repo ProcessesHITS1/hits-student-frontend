@@ -1,10 +1,14 @@
 import { FC } from "react";
 
 type Props = {
-    text?: string | number;
+    text: string | number;
     className?: string;
 }
 
+export const SmallCommonText: FC<Props> = props => {
+    return <p className={`text-sm ${props.className} break-words`}>{props.text}</p>
+}
+
 export const CommonText: FC<Props> = props => {
-    return <span className={`text-base ${props.className}`}>{props.text}</span>
+    return <p className={`text-base ${props.className} break-words`}>{props.text}</p>
 }
