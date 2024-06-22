@@ -250,6 +250,12 @@ export interface RequestData {
      * @type {string}
      * @memberof RequestData
      */
+    'companyId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestData
+     */
     'studentName'?: string | null;
     /**
      * 
@@ -568,6 +574,47 @@ export const CompaniesApiAxiosParamCreator = function (configuration?: Configura
     return {
         /**
          * 
+         * @param {number} year 
+         * @param {string} companyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSeasonYearCompaniesCompanyIdGet: async (year: number, companyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'year' is not null or undefined
+            assertParamExists('apiSeasonYearCompaniesCompanyIdGet', 'year', year)
+            // verify required parameter 'companyId' is not null or undefined
+            assertParamExists('apiSeasonYearCompaniesCompanyIdGet', 'companyId', companyId)
+            const localVarPath = `/api/season/{year}/companies/{companyId}`
+                .replace(`{${"year"}}`, encodeURIComponent(String(year)))
+                .replace(`{${"companyId"}}`, encodeURIComponent(String(companyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Получает все компании в сезоне.
          * @param {number} year The year for which to retrieve the companies.
          * @param {*} [options] Override http request option.
@@ -700,6 +747,19 @@ export const CompaniesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {number} year 
+         * @param {string} companyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSeasonYearCompaniesCompanyIdGet(year: number, companyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyInSeasonInfo>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonYearCompaniesCompanyIdGet(year, companyId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompaniesApi.apiSeasonYearCompaniesCompanyIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Получает все компании в сезоне.
          * @param {number} year The year for which to retrieve the companies.
          * @param {*} [options] Override http request option.
@@ -751,6 +811,16 @@ export const CompaniesApiFactory = function (configuration?: Configuration, base
     return {
         /**
          * 
+         * @param {number} year 
+         * @param {string} companyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSeasonYearCompaniesCompanyIdGet(year: number, companyId: string, options?: any): AxiosPromise<CompanyInSeasonInfo> {
+            return localVarFp.apiSeasonYearCompaniesCompanyIdGet(year, companyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Получает все компании в сезоне.
          * @param {number} year The year for which to retrieve the companies.
          * @param {*} [options] Override http request option.
@@ -791,6 +861,18 @@ export const CompaniesApiFactory = function (configuration?: Configuration, base
  * @extends {BaseAPI}
  */
 export class CompaniesApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} year 
+     * @param {string} companyId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompaniesApi
+     */
+    public apiSeasonYearCompaniesCompanyIdGet(year: number, companyId: string, options?: RawAxiosRequestConfig) {
+        return CompaniesApiFp(this.configuration).apiSeasonYearCompaniesCompanyIdGet(year, companyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Получает все компании в сезоне.
@@ -1010,6 +1092,47 @@ export const PositionsApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {number} year 
+         * @param {string} positionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPositionYearPositionsPositionIdGet: async (year: number, positionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'year' is not null or undefined
+            assertParamExists('apiPositionYearPositionsPositionIdGet', 'year', year)
+            // verify required parameter 'positionId' is not null or undefined
+            assertParamExists('apiPositionYearPositionsPositionIdGet', 'positionId', positionId)
+            const localVarPath = `/api/position/{year}/positions/{positionId}`
+                .replace(`{${"year"}}`, encodeURIComponent(String(year)))
+                .replace(`{${"positionId"}}`, encodeURIComponent(String(positionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1076,6 +1199,19 @@ export const PositionsApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['PositionsApi.apiPositionSearchGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {number} year 
+         * @param {string} positionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPositionYearPositionsPositionIdGet(year: number, positionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PositionInfo>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPositionYearPositionsPositionIdGet(year, positionId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PositionsApi.apiPositionYearPositionsPositionIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -1129,6 +1265,16 @@ export const PositionsApiFactory = function (configuration?: Configuration, base
          */
         apiPositionSearchGet(year?: number, companies?: Array<string>, q?: string, page?: number, options?: any): AxiosPromise<PositionInfoPaginatedItems> {
             return localVarFp.apiPositionSearchGet(year, companies, q, page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} year 
+         * @param {string} positionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPositionYearPositionsPositionIdGet(year: number, positionId: string, options?: any): AxiosPromise<PositionInfo> {
+            return localVarFp.apiPositionYearPositionsPositionIdGet(year, positionId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1191,6 +1337,18 @@ export class PositionsApi extends BaseAPI {
     public apiPositionSearchGet(year?: number, companies?: Array<string>, q?: string, page?: number, options?: RawAxiosRequestConfig) {
         return PositionsApiFp(this.configuration).apiPositionSearchGet(year, companies, q, page, options).then((request) => request(this.axios, this.basePath));
     }
+
+    /**
+     * 
+     * @param {number} year 
+     * @param {string} positionId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PositionsApi
+     */
+    public apiPositionYearPositionsPositionIdGet(year: number, positionId: string, options?: RawAxiosRequestConfig) {
+        return PositionsApiFp(this.configuration).apiPositionYearPositionsPositionIdGet(year, positionId, options).then((request) => request(this.axios, this.basePath));
+    }
 }
 
 
@@ -1205,16 +1363,15 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary Получает информацию о запросах стажировку. Endpoint для администратора.
          * @param {Array<number>} [seasons] Фильтрация по сезонам
-         * @param {Array<string>} [companyIds] пока не работает
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
          * @param {Array<string>} [studentIds] фильтрация по студентам.
-         * @param {Array<string>} [requestIds] фильтрация по запросам.
          * @param {number} [page] 
          * @param {number} [pageSize] 
          * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestGet: async (seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, requestIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiRequestGet: async (seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/request`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1241,10 +1398,6 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
 
             if (studentIds) {
                 localVarQueryParameter['studentIds'] = studentIds;
-            }
-
-            if (requestIds) {
-                localVarQueryParameter['requestIds'] = requestIds;
             }
 
             if (page !== undefined) {
@@ -1274,7 +1427,7 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary Получает информацию о запросах стажировку. Endpoint для студента.
          * @param {Array<number>} [seasons] фильтрация по сезонам
-         * @param {Array<string>} [companyIds] пока не работает
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
          * @param {number} [page] 
          * @param {number} [pageSize] 
          * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
@@ -1506,17 +1659,16 @@ export const RequestApiFp = function(configuration?: Configuration) {
          * 
          * @summary Получает информацию о запросах стажировку. Endpoint для администратора.
          * @param {Array<number>} [seasons] Фильтрация по сезонам
-         * @param {Array<string>} [companyIds] пока не работает
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
          * @param {Array<string>} [studentIds] фильтрация по студентам.
-         * @param {Array<string>} [requestIds] фильтрация по запросам.
          * @param {number} [page] 
          * @param {number} [pageSize] 
          * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiRequestGet(seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, requestIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RequestDataPaginatedItems>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestGet(seasons, companyIds, studentIds, requestIds, page, pageSize, includeHistory, options);
+        async apiRequestGet(seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RequestDataPaginatedItems>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestGet(seasons, companyIds, studentIds, page, pageSize, includeHistory, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1525,7 +1677,7 @@ export const RequestApiFp = function(configuration?: Configuration) {
          * 
          * @summary Получает информацию о запросах стажировку. Endpoint для студента.
          * @param {Array<number>} [seasons] фильтрация по сезонам
-         * @param {Array<string>} [companyIds] пока не работает
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
          * @param {number} [page] 
          * @param {number} [pageSize] 
          * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
@@ -1606,23 +1758,22 @@ export const RequestApiFactory = function (configuration?: Configuration, basePa
          * 
          * @summary Получает информацию о запросах стажировку. Endpoint для администратора.
          * @param {Array<number>} [seasons] Фильтрация по сезонам
-         * @param {Array<string>} [companyIds] пока не работает
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
          * @param {Array<string>} [studentIds] фильтрация по студентам.
-         * @param {Array<string>} [requestIds] фильтрация по запросам.
          * @param {number} [page] 
          * @param {number} [pageSize] 
          * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestGet(seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, requestIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: any): AxiosPromise<RequestDataPaginatedItems> {
-            return localVarFp.apiRequestGet(seasons, companyIds, studentIds, requestIds, page, pageSize, includeHistory, options).then((request) => request(axios, basePath));
+        apiRequestGet(seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: any): AxiosPromise<RequestDataPaginatedItems> {
+            return localVarFp.apiRequestGet(seasons, companyIds, studentIds, page, pageSize, includeHistory, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Получает информацию о запросах стажировку. Endpoint для студента.
          * @param {Array<number>} [seasons] фильтрация по сезонам
-         * @param {Array<string>} [companyIds] пока не работает
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
          * @param {number} [page] 
          * @param {number} [pageSize] 
          * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
@@ -1688,9 +1839,8 @@ export class RequestApi extends BaseAPI {
      * 
      * @summary Получает информацию о запросах стажировку. Endpoint для администратора.
      * @param {Array<number>} [seasons] Фильтрация по сезонам
-     * @param {Array<string>} [companyIds] пока не работает
+     * @param {Array<string>} [companyIds] фильтрация по компаниям
      * @param {Array<string>} [studentIds] фильтрация по студентам.
-     * @param {Array<string>} [requestIds] фильтрация по запросам.
      * @param {number} [page] 
      * @param {number} [pageSize] 
      * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
@@ -1698,15 +1848,15 @@ export class RequestApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof RequestApi
      */
-    public apiRequestGet(seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, requestIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: RawAxiosRequestConfig) {
-        return RequestApiFp(this.configuration).apiRequestGet(seasons, companyIds, studentIds, requestIds, page, pageSize, includeHistory, options).then((request) => request(this.axios, this.basePath));
+    public apiRequestGet(seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: RawAxiosRequestConfig) {
+        return RequestApiFp(this.configuration).apiRequestGet(seasons, companyIds, studentIds, page, pageSize, includeHistory, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Получает информацию о запросах стажировку. Endpoint для студента.
      * @param {Array<number>} [seasons] фильтрация по сезонам
-     * @param {Array<string>} [companyIds] пока не работает
+     * @param {Array<string>} [companyIds] фильтрация по компаниям
      * @param {number} [page] 
      * @param {number} [pageSize] 
      * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.

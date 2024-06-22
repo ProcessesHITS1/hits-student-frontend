@@ -17,7 +17,7 @@ type QueryParams = {
 
 export const Companies = () => {
     const [searchKeyword, setSearchKeyword] = useState<string | undefined>(undefined);
-    const season = useContext(SeasonContext);
+    const { season } = useContext(SeasonContext);
 
     const { isLoading, data: positions, refetch } = useQuery<QueryParams, PositionInfoPaginatedItems>(
         params => positionsApi.apiPositionSearchGet(

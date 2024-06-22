@@ -31,7 +31,7 @@ type p = {
 }
 
 export const NavOptionsContainer: FC<Props> = props => {
-    const season = useContext(SeasonContext);
+    const { season } = useContext(SeasonContext);
     const navigate = useNavigate();
 
     const onLogout = useCallback(() => {

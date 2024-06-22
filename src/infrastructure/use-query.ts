@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 
 type Request<TParams, TResult> = (params: TParams) => Promise<AxiosResponse<TResult, any>>;
 
-type DeepRequired<T> = {
+export type DeepRequired<T> = {
     [K in keyof T]: Required<DeepRequired<T[K]>>
 };
 
@@ -34,7 +34,7 @@ export function useQuery<TParams, TResult>(
 export function useQuery<TParams, TResult>(
     request: Request<TParams | undefined, TResult>,
     defaultParams?: TParams,
-    executeImmediately: boolean = true
+    executeImmediately: boolean = true,
 ): QueryProperties<TParams, TResult> {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState<DeepRequired<TResult> | undefined>();
