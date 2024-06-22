@@ -30,7 +30,7 @@ export const CompanyCard: FC<Props> = props => {
 const CardHeader = (props: { companyName: string, onClick: () => void}) => {
     return (
         <div className="flex flex-row justify-between items-center">
-            <H5 text={props.companyName} color="text-black"/>
+            <H5 text={props.companyName} className="text-black"/>
             <Button onClick={props.onClick}>
                 <CommonText text="Хочу сюда!" className="text-blue-600" />
             </Button>

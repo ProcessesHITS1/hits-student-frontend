@@ -2,6 +2,7 @@ import { FC, PropsWithChildren, useEffect } from "react"
 import { useSetupAxios } from "../infrastructure/use-setup-axios"
 import { getAccessToken } from "../infrastructure/access-token-storage";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { SeasonContextProvider } from "./SeasonContextProvider";
 
 export const Root: FC<PropsWithChildren> = () => {
     const navigate = useNavigate();
@@ -26,7 +27,9 @@ export const Root: FC<PropsWithChildren> = () => {
 
     return (
         <div className="static h-full">
-            <Outlet />
+            <SeasonContextProvider>
+                <Outlet />
+            </SeasonContextProvider>
         </div>
     )
 }

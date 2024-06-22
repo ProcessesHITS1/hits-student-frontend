@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { PageWithHeader } from "../common/PageWithHeader"
 import { CompanyCard } from "./CompanyCard"
 import { Pagination } from "../common/pagination/Pagination";
@@ -8,6 +8,7 @@ import { Search } from "../common/Search";
 import { ClipLoader } from "react-spinners";
 import { CommonText } from "../common/CommonText";
 import { useQuery } from "../../infrastructure/use-query";
+import { SeasonContext } from "../SeasonContextProvider";
 
 type QueryParams = {
     keyword?: string;
@@ -16,10 +17,11 @@ type QueryParams = {
 
 export const Companies = () => {
     const [searchKeyword, setSearchKeyword] = useState<string | undefined>(undefined);
+    const season = useContext(SeasonContext);
 
     const { isLoading, data: positions, refetch } = useQuery<QueryParams, PositionInfoPaginatedItems>(
         params => positionsApi.apiPositionSearchGet(
-            2011, [], params?.keyword, params?.page
+            season?.year ?? 2020, [], params?.keyword, params?.page
         )
     );
 
@@ -31,7 +33,7 @@ export const Companies = () => {
     return (
         <PageWithHeader headerText="Компании">
             <div className="flex flex-col px-4 pt-5 h-full" >
-                <div className="flex flex-col-reverse sm:flex-row w-full items-center h-fit sm:justify-between">
+                <div className="flex flex-col-reverse gap-4 sm:flex-row w-full items-center h-fit sm:justify-between">
                     {positions?.paginationInfo && <Pagination 
                         currentPage={positions.paginationInfo.currentPage!} 
                         totalPages={positions.paginationInfo.totalItems!}
