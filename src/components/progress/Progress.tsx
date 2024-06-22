@@ -7,23 +7,37 @@ import { CommonText } from "../common/CommonText";
 import { PositionDescriptionCard } from "./PositionDescriptionCard";
 import { Button } from "../common/Button";
 import Modal from 'react-modal';
+import { useQuery } from "../../infrastructure/use-query";
+import { requestApi } from "../../infrastructure/api-clients";
+import "../../styles/progress.css";
 
 export const Progress: FC = () => {
     const { requestId } = useParams();
 
     const [isModalShown, setIsModalShown] = useState(false);
 
+    const { data: request } = useQuery(
+        () => requestApi.apiRequestRequestIdGet(requestId!)
+    );
+
+
     return (
-        <PageWithHeader headerText={requestId}>
+        <PageWithHeader headerText={`Процесс прохождения: ${requestId}`}>
             <div className="flex flex-col-reverse sm:flex-row gap-8 px-4 py-6">
                 <div className="flex flex-col items-center gap-5 w-full sm:w-5/12">
                     <H4 text="История статусов" />
                     <div className="flex flex-row gap-4 w-full">
-                        <ProgressStepCard 
-                            headerText="Пригласили на секс"
-                            description="Я хочу питсу"
-                            date={new Date()}
-                        />
+                        {
+                            request?.requestStatusSnapshots &&
+                            request.requestStatusSnapshots.map(x => 
+                                <div className="border w-full h-full status">
+                                    <ProgressStepCard
+                                        headerText={x.status}
+                                        date={new Date(x.dateTime)}
+                                    />
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
                 <div className="flex flex-col gap-6 w-full sm:w-7/12">

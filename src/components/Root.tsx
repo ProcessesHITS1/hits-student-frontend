@@ -27,9 +27,7 @@ export const Root: FC<PropsWithChildren> = () => {
 
     return (
         <div className="static h-full">
-            <SeasonContextProvider>
-                <Outlet />
-            </SeasonContextProvider>
+            <Outlet />
         </div>
     )
 }
