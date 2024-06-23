@@ -1,12 +1,13 @@
 import { FC } from "react";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 
 type Props = {
     options: { value: string, label: string }[]
+    onChange: (v: SingleValue<{ value: string, label: string}>) => void;
 };
 
 export const CommonSelect: FC<Props> = props => {
     return (
-        <Select className="w-full" options={props.options} onChange={v => console.log(v)}/>
+        <Select className="w-full" options={props.options} onChange={props.onChange}/>
     );
 }

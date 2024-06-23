@@ -26,7 +26,7 @@ export const Progress: FC = () => {
             <div className="flex flex-col-reverse sm:flex-row gap-8 px-4 py-6">
                 <div className="flex flex-col items-center gap-5 w-full sm:w-5/12">
                     <H4 text="История статусов" />
-                    <div className="flex flex-row gap-4 w-full">
+                    <div className="flex flex-col gap-4 w-full">
                         {
                             request?.requestStatusSnapshots &&
                             request.requestStatusSnapshots.map(x => 
@@ -50,10 +50,14 @@ export const Progress: FC = () => {
                     </div>
                 }
             </div>
-            <UpdateStatusModal 
-                isOpen={isModalShown}
-                onRequestClose={() => setIsModalShown(false)} 
-            />
+            {
+                requestId &&
+                <UpdateStatusModal
+                    requestId={requestId}
+                    isOpen={isModalShown}
+                    onRequestClose={() => setIsModalShown(false)} 
+                />
+            }
         </PageWithHeader>
     )
 }
