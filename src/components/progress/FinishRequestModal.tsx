@@ -5,11 +5,11 @@ import { Input } from "../common/Input";
 import { RequestResultDataResultStatusEnum } from "../../api/clients/interview";
 import { CommonSelect } from "../common/CommonSelect";
 import { SingleValue } from "react-select";
-import { Button } from "../common/Button";
-import { CommonText } from "../common/CommonText";
 import { requestApi } from "../../infrastructure/api-clients";
 import { isRequestSuccessful } from "../../infrastructure/http-helpers";
 import { useNavigate } from "react-router-dom";
+import { SubmitButton } from "../common/SubmitButton";
+import { CommonText } from "../common/CommonText";
 
 type Props = ReactModal.Props & {
     requestId: string;
@@ -48,29 +48,33 @@ export const FinishRequestModal: FC<Props> = props => {
             {...props}
             header="Завершить процесс прохождения"
         >
-            <form className="flex flex-col h-full w-full gap-4" onSubmit={onSubmit}>
-                <Input 
-                    type="checkbox" 
-                    placeholder="Offer given" 
-                    onChange={e => setOfferGiven(e.target.checked)}
-                    defaultChecked={false}
-                />
-                <CommonSelect 
-                    options={[
-                        { value: RequestResultDataResultStatusEnum.Accepted, label: "Принято"},
-                        { value: RequestResultDataResultStatusEnum.Rejected, label: "Отклонено" }, 
-                    ]} 
-                    onChange={onSelect} 
-                />
-                <textarea
-                    rows={5}
-                    cols={30}
-                    className="outline-none focus:outline-none border border-slate-200 resize-none p-2"
-                    onChange={e => setDescription(e.target.value)}
-                />
-                <Button className="self-end px-2 bg-blue-400" type="submit">
-                    <CommonText text={"Завершить"} className="text-white"/>
-                </Button>
+            <form className="flex flex-col h-full w-full justify-between" onSubmit={onSubmit}>
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-row gap-2">
+                        <Input 
+                            type="checkbox" 
+                            placeholder="Offer given" 
+                            onChange={e => setOfferGiven(e.target.checked)}
+                            defaultChecked={false}
+                            className="self-start w-6 h-6"
+                        />
+                        <CommonText text={"Предоставили оффер"} />
+                    </div>
+                    <CommonSelect 
+                        options={[
+                            { value: RequestResultDataResultStatusEnum.Accepted, label: "Принял оффер"},
+                            { value: RequestResultDataResultStatusEnum.Rejected, label: "Отклонил оффер" }, 
+                        ]} 
+                        onChange={onSelect} 
+                    />
+                    <textarea
+                        rows={5}
+                        cols={30}
+                        className="outline-none focus:outline-none border border-slate-200 resize-none p-2"
+                        onChange={e => setDescription(e.target.value)}
+                    />
+                </div>
+                <SubmitButton text="Завершить"/>
             </form>
         </ModalContainer>
     );

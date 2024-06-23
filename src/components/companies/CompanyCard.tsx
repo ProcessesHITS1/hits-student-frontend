@@ -1,8 +1,7 @@
-import { FC, useCallback } from "react";
+import { FC } from "react";
 import { Button } from "../common/Button";
 import { H5 } from "../common/Headers";
 import { CommonText } from "../common/CommonText";
-import { requestApi } from "../../infrastructure/api-clients";
 import { Card } from "../common/Card";
 
 type Props = {
@@ -12,16 +11,13 @@ type Props = {
     numberOfPositions: number;
     contact: string;
     tutor: string;
+    onPress: () => void;
 }
 
 export const CompanyCard: FC<Props> = props => {
-    const onButtonPress = useCallback(async () => {
-        await requestApi.apiRequestPositionPositionIdPost(props.positionId);
-    }, [props.positionId]);
-
     return (
         <Card 
-            header={() => <CardHeader companyName={props.companyName} onClick={onButtonPress} />} 
+            header={() => <CardHeader companyName={props.companyName} onClick={props.onPress} />} 
             body={() => <CardBody position={props.position} contact={props.contact} tutor={props.tutor} nPos={props.numberOfPositions} />}
         />
     );

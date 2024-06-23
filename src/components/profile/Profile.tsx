@@ -23,10 +23,6 @@ export const Profile = () => {
                         {
                             name: "Офферы",
                             component: <Offers />
-                        },
-                        {
-                            name: "Приоритеты",
-                            component: <Priorities />
                         }
                     ]} 
                 />

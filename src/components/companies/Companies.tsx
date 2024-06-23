@@ -9,6 +9,7 @@ import { ClipLoader } from "react-spinners";
 import { CommonText } from "../common/CommonText";
 import { useQuery } from "../../infrastructure/use-query";
 import { SeasonContext } from "../SeasonContextProvider";
+import { RequestModal } from "./RequestModal";
 
 type QueryParams = {
     keyword?: string;
@@ -16,6 +17,8 @@ type QueryParams = {
 }
 
 export const Companies = () => {
+    const [isRequestModalShown, setIsRequestModalShown] = useState(false);
+    const [selectedPositionId, setSelectedPositionId] = useState<string | undefined>();
     const [searchKeyword, setSearchKeyword] = useState<string | undefined>(undefined);
     const { season } = useContext(SeasonContext);
 
@@ -61,7 +64,11 @@ export const Companies = () => {
                                     position={position.title!} 
                                     numberOfPositions={position.nSeats!} 
                                     contact={"name nameovich"} 
-                                    tutor={"name nameovich"}                                
+                                    tutor={"name nameovich"}
+                                    onPress={() => {
+                                        setIsRequestModalShown(true);
+                                        setSelectedPositionId(position.id);
+                                    }}                                
                                 />
                             )
                         }
@@ -71,6 +78,11 @@ export const Companies = () => {
                     </div>
                 }
             </div>
+            <RequestModal 
+                isOpen={isRequestModalShown} 
+                positionId={selectedPositionId ?? ''} 
+                onRequestClose={() => setIsRequestModalShown(false)}
+            />
         </PageWithHeader>
     )
 }
