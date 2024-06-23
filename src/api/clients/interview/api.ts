@@ -327,12 +327,19 @@ export interface RequestDetails {
     'positionId'?: string;
     /**
      * 
-     * @type {ResultStatus}
+     * @type {string}
      * @memberof RequestDetails
      */
-    'status'?: ResultStatus;
+    'status'?: RequestDetailsStatusEnum;
 }
 
+export const RequestDetailsStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
+} as const;
+
+export type RequestDetailsStatusEnum = typeof RequestDetailsStatusEnum[keyof typeof RequestDetailsStatusEnum];
 
 /**
  * 
@@ -342,10 +349,10 @@ export interface RequestDetails {
 export interface RequestResultData {
     /**
      * 
-     * @type {ResultStatus}
+     * @type {string}
      * @memberof RequestResultData
      */
-    'resultStatus'?: ResultStatus;
+    'resultStatus'?: RequestResultDataResultStatusEnum;
     /**
      * 
      * @type {string}
@@ -360,6 +367,13 @@ export interface RequestResultData {
     'offerGiven'?: boolean;
 }
 
+export const RequestResultDataResultStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
+} as const;
+
+export type RequestResultDataResultStatusEnum = typeof RequestResultDataResultStatusEnum[keyof typeof RequestResultDataResultStatusEnum];
 
 /**
  * 
@@ -369,10 +383,10 @@ export interface RequestResultData {
 export interface RequestResultUpdate {
     /**
      * 
-     * @type {ResultStatus}
+     * @type {string}
      * @memberof RequestResultUpdate
      */
-    'resultStatus'?: ResultStatus | null;
+    'resultStatus'?: RequestResultUpdateResultStatusEnum | null;
     /**
      * 
      * @type {string}
@@ -387,6 +401,13 @@ export interface RequestResultUpdate {
     'offerGiven'?: boolean | null;
 }
 
+export const RequestResultUpdateResultStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
+} as const;
+
+export type RequestResultUpdateResultStatusEnum = typeof RequestResultUpdateResultStatusEnum[keyof typeof RequestResultUpdateResultStatusEnum];
 
 /**
  * 
@@ -432,21 +453,6 @@ export interface RequestStatusTemplateData {
      */
     'name'?: string | null;
 }
-/**
- * 
- * @export
- * @enum {string}
- */
-
-export const ResultStatus = {
-    OpenApiString: 'Microsoft.OpenApi.Any.OpenApiString',
-    OpenApiString2: 'Microsoft.OpenApi.Any.OpenApiString',
-    OpenApiString3: 'Microsoft.OpenApi.Any.OpenApiString'
-} as const;
-
-export type ResultStatus = typeof ResultStatus[keyof typeof ResultStatus];
-
-
 /**
  * 
  * @export
@@ -572,47 +578,6 @@ export interface StudentInfo {
  */
 export const CompaniesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
-        /**
-         * 
-         * @param {number} year 
-         * @param {string} companyId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSeasonYearCompaniesCompanyIdGet: async (year: number, companyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'year' is not null or undefined
-            assertParamExists('apiSeasonYearCompaniesCompanyIdGet', 'year', year)
-            // verify required parameter 'companyId' is not null or undefined
-            assertParamExists('apiSeasonYearCompaniesCompanyIdGet', 'companyId', companyId)
-            const localVarPath = `/api/season/{year}/companies/{companyId}`
-                .replace(`{${"year"}}`, encodeURIComponent(String(year)))
-                .replace(`{${"companyId"}}`, encodeURIComponent(String(companyId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
         /**
          * 
          * @summary Получает все компании в сезоне.
@@ -747,19 +712,6 @@ export const CompaniesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} year 
-         * @param {string} companyId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSeasonYearCompaniesCompanyIdGet(year: number, companyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyInSeasonInfo>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonYearCompaniesCompanyIdGet(year, companyId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['CompaniesApi.apiSeasonYearCompaniesCompanyIdGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @summary Получает все компании в сезоне.
          * @param {number} year The year for which to retrieve the companies.
          * @param {*} [options] Override http request option.
@@ -811,16 +763,6 @@ export const CompaniesApiFactory = function (configuration?: Configuration, base
     return {
         /**
          * 
-         * @param {number} year 
-         * @param {string} companyId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSeasonYearCompaniesCompanyIdGet(year: number, companyId: string, options?: any): AxiosPromise<CompanyInSeasonInfo> {
-            return localVarFp.apiSeasonYearCompaniesCompanyIdGet(year, companyId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Получает все компании в сезоне.
          * @param {number} year The year for which to retrieve the companies.
          * @param {*} [options] Override http request option.
@@ -861,18 +803,6 @@ export const CompaniesApiFactory = function (configuration?: Configuration, base
  * @extends {BaseAPI}
  */
 export class CompaniesApi extends BaseAPI {
-    /**
-     * 
-     * @param {number} year 
-     * @param {string} companyId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof CompaniesApi
-     */
-    public apiSeasonYearCompaniesCompanyIdGet(year: number, companyId: string, options?: RawAxiosRequestConfig) {
-        return CompaniesApiFp(this.configuration).apiSeasonYearCompaniesCompanyIdGet(year, companyId, options).then((request) => request(this.axios, this.basePath));
-    }
-
     /**
      * 
      * @summary Получает все компании в сезоне.

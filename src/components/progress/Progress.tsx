@@ -10,16 +10,19 @@ import { useQuery } from "../../infrastructure/use-query";
 import { requestApi } from "../../infrastructure/api-clients";
 import "../../styles/progress.css";
 import { UpdateStatusModal } from "./UpdateStatusModal";
+import { FinishRequestModal } from "./FinishRequestModal";
 
 export const Progress: FC = () => {
     const { requestId } = useParams();
 
-    const [isModalShown, setIsModalShown] = useState(false);
+    const [isUpdateModalShown, setIsUpdateModalShown] = useState(false);
+    const [isFinishModalShown, setIsFinishModalShown] = useState(false);
 
     const { data: request } = useQuery(
         () => requestApi.apiRequestRequestIdGet(requestId!)
     );
 
+    console.log(request);
 
     return (
         <PageWithHeader headerText={request?.positionTitle ?? ''}>
@@ -42,21 +45,41 @@ export const Progress: FC = () => {
                 </div>
                 {request?.positionId &&
                     <div className="flex flex-col gap-6 w-full sm:w-7/12">
-                        <CommonText text={request?.requestResult?.description ?? 'В процессе...'} className="text-slate-400 w-full text-end" />
+                        <CommonText text={request?.requestResult?.resultStatus ?? 'В процессе...'} className="text-slate-400 w-full text-end" />
                         <PositionDescriptionCard positionId={request.positionId}/>
-                        <Button className="flex justify-center items-center w-full h-10 bg-blue-500 outline-none" onClick={() => setIsModalShown(true)}>
-                            <CommonText text="Обновить статус" className="text-white"/>
-                        </Button>
+                        { !request?.requestResult?.resultStatus &&
+                            <>
+                                <Button 
+                                    className="flex justify-center items-center w-full h-10 bg-blue-500 outline-none" 
+                                    onClick={() => setIsUpdateModalShown(true)}
+                                >
+                                    <CommonText text="Обновить статус" className="text-white"/>
+                                </Button>
+                                <Button 
+                                    className="flex justify-center items-center w-full h-10 bg-red-500 outline-none" 
+                                    onClick={() => setIsFinishModalShown(true)}
+                                >
+                                    <CommonText text="Завершить" className="text-white"/>
+                                </Button>
+                            </>   
+                        }
                     </div>
                 }
             </div>
             {
                 requestId &&
-                <UpdateStatusModal
-                    requestId={requestId}
-                    isOpen={isModalShown}
-                    onRequestClose={() => setIsModalShown(false)} 
-                />
+                <>
+                    <UpdateStatusModal
+                        requestId={requestId}
+                        isOpen={isUpdateModalShown}
+                        onRequestClose={() => setIsUpdateModalShown(false)} 
+                    />
+                    <FinishRequestModal
+                        requestId={requestId}
+                        isOpen={isFinishModalShown}
+                        onRequestClose={() => setIsFinishModalShown(false)} 
+                    />
+                </>
             }
         </PageWithHeader>
     )
