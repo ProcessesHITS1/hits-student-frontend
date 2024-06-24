@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { PageWithHeader } from "../common/PageWithHeader"
 import { CompanyCard } from "./CompanyCard"
 import { Pagination } from "../common/pagination/Pagination";
@@ -14,6 +14,7 @@ import { RequestModal } from "./RequestModal";
 type QueryParams = {
     keyword?: string;
     page?: number;
+    year: number;
 }
 
 export const Companies = () => {
@@ -21,17 +22,26 @@ export const Companies = () => {
     const [selectedPositionId, setSelectedPositionId] = useState<string | undefined>();
     const [searchKeyword, setSearchKeyword] = useState<string | undefined>(undefined);
     const { season } = useContext(SeasonContext);
+    console.log(`season ${season}`);
 
     const { isLoading, data: positions, refetch } = useQuery<QueryParams, PositionInfoPaginatedItems>(
         params => positionsApi.apiPositionSearchGet(
-            season?.year ?? 2020, [], params?.keyword, params?.page
+            params?.year, [], params?.keyword, params?.page
         )
     );
 
     const search = useCallback(
-        (keyword?: string, page?: number) => refetch({ keyword: keyword, page: page}), 
-        [refetch]
+        async (keyword?: string, page?: number) => {
+            if (!season?.year) return;
+            await refetch({ keyword: keyword, page: page, year: season.year})
+        }, 
+        [refetch, season]
     );
+
+    useEffect(() => {
+        if (!season?.year) return;
+        refetch({ year: season.year });
+    }, [season]);
 
     return (
         <PageWithHeader headerText="Компании">

@@ -1,8 +1,8 @@
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import ReactModal from "react-modal";
 import { ModalContainer } from "../common/ModalContainer";
 import { Input } from "../common/Input";
-import { RequestResultDataResultStatusEnum } from "../../api/clients/interview";
+import { RequestResultData, RequestResultDataStudentResultStatusEnum } from "../../api/clients/interview";
 import { CommonSelect } from "../common/CommonSelect";
 import { SingleValue } from "react-select";
 import { requestApi } from "../../infrastructure/api-clients";
@@ -13,17 +13,18 @@ import { CommonText } from "../common/CommonText";
 
 type Props = ReactModal.Props & {
     requestId: string;
+    requestResult?: RequestResultData | undefined;
 }
 
 export const FinishRequestModal: FC<Props> = props => {
-    const [offerGiven, setOfferGiven] = useState(false);
-    const [status, setStatus] = useState<RequestResultDataResultStatusEnum | undefined>();
+    const [offerGiven, setOfferGiven] = useState<boolean | null>(null);
+    const [status, setStatus] = useState<RequestResultDataStudentResultStatusEnum | undefined>();
     const [description, setDescription] = useState<string | undefined>();
     const navigate = useNavigate();
 
     const onSelect = useCallback((v: SingleValue<{ value: string; label: string; }>) => {
         if (!v?.value) return;
-        setStatus(v?.value as RequestResultDataResultStatusEnum);
+        setStatus(v?.value as RequestResultDataStudentResultStatusEnum);
     }, []);
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +34,7 @@ export const FinishRequestModal: FC<Props> = props => {
         const response = await requestApi.apiRequestRequestIdResultStatusPut(
             props.requestId,
             {
-                resultStatus: status,
+                studentResultStatus: status,
                 description: description,
                 offerGiven: offerGiven
             }
@@ -42,6 +43,11 @@ export const FinishRequestModal: FC<Props> = props => {
         if (!isRequestSuccessful(response)) return;
         navigate(0);
     };
+
+    const selectOptions = useMemo(() => ([
+        { value: RequestResultDataStudentResultStatusEnum.Accepted, label: "Принял оффер"},
+        { value: RequestResultDataStudentResultStatusEnum.Rejected, label: "Отклонил оффер" }, 
+    ]), []);
 
     return (
         <ModalContainer 
@@ -55,16 +61,19 @@ export const FinishRequestModal: FC<Props> = props => {
                             type="checkbox" 
                             placeholder="Offer given" 
                             onChange={e => setOfferGiven(e.target.checked)}
-                            defaultChecked={false}
+                            defaultChecked={props.requestResult?.offerGiven}
                             className="self-start w-6 h-6"
                         />
                         <CommonText text={"Предоставили оффер"} />
                     </div>
                     <CommonSelect 
-                        options={[
-                            { value: RequestResultDataResultStatusEnum.Accepted, label: "Принял оффер"},
-                            { value: RequestResultDataResultStatusEnum.Rejected, label: "Отклонил оффер" }, 
-                        ]} 
+                        options={selectOptions}
+                        defaultValue={
+                            props.requestResult?.studentResultStatus === 'Accepted' ? 
+                            selectOptions[0] :
+                            props.requestResult?. studentResultStatus === 'Rejected' ?
+                            selectOptions[1] : undefined
+                        }
                         onChange={onSelect} 
                     />
                     <textarea
@@ -72,6 +81,7 @@ export const FinishRequestModal: FC<Props> = props => {
                         cols={30}
                         className="outline-none focus:outline-none border border-slate-200 resize-none p-2"
                         onChange={e => setDescription(e.target.value)}
+                        defaultValue={props.requestResult?.description ?? undefined}
                     />
                 </div>
                 <SubmitButton text="Завершить"/>

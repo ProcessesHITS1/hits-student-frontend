@@ -1,7 +1,6 @@
 import { Menu } from "../common/Menu/Menu.tsx";
 import { PageWithHeader } from "../common/PageWithHeader.tsx";
 import { Offers } from "./offers/Offers.tsx";
-import { Priorities } from "./priorities/Priorities.tsx";
 import { authApi } from "../../infrastructure/api-clients.ts";
 import { useQuery } from "../../infrastructure/use-query.ts";
 

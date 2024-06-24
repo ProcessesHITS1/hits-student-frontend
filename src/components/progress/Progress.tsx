@@ -11,6 +11,7 @@ import { requestApi } from "../../infrastructure/api-clients";
 import "../../styles/progress.css";
 import { UpdateStatusModal } from "./UpdateStatusModal";
 import { FinishRequestModal } from "./FinishRequestModal";
+import { RequestResultDataStudentResultStatusEnum, RequestResultUpdateSchoolResultStatusEnum } from "../../api/clients/interview";
 
 export const Progress: FC = () => {
     const { requestId } = useParams();
@@ -45,24 +46,21 @@ export const Progress: FC = () => {
                 </div>
                 {request?.positionId &&
                     <div className="flex flex-col gap-6 w-full sm:w-7/12">
-                        <CommonText text={request?.requestResult?.resultStatus ?? 'В процессе...'} className="text-slate-400 w-full text-end" />
+                        <CommonText text={`Школа: ${statusToText(request.requestResult?.schoolResultStatus)}`} className="text-slate-400 w-full text-end"/>
+                        <CommonText text={`Вы: ${statusToText(request.requestResult?.studentResultStatus)}`} className="text-slate-400 w-full text-end"/>
                         <PositionDescriptionCard positionId={request.positionId}/>
-                        { !request?.requestResult?.resultStatus &&
-                            <>
-                                <Button 
-                                    className="flex justify-center items-center w-full h-10 bg-blue-500 outline-none" 
-                                    onClick={() => setIsUpdateModalShown(true)}
-                                >
-                                    <CommonText text="Обновить статус" className="text-white"/>
-                                </Button>
-                                <Button 
-                                    className="flex justify-center items-center w-full h-10 bg-red-500 outline-none" 
-                                    onClick={() => setIsFinishModalShown(true)}
-                                >
-                                    <CommonText text="Завершить" className="text-white"/>
-                                </Button>
-                            </>   
-                        }
+                        <Button 
+                            className="flex justify-center items-center w-full h-10 bg-blue-500 outline-none" 
+                            onClick={() => setIsUpdateModalShown(true)}
+                        >
+                            <CommonText text="Обновить статус" className="text-white"/>
+                        </Button>
+                        <Button 
+                            className="flex justify-center items-center w-full h-10 bg-red-500 outline-none" 
+                            onClick={() => setIsFinishModalShown(true)}
+                        >
+                            <CommonText text="Завершить" className="text-white"/>
+                        </Button>
                     </div>
                 }
             </div>
@@ -83,4 +81,13 @@ export const Progress: FC = () => {
             }
         </PageWithHeader>
     )
+}
+
+function statusToText(
+    status?: RequestResultDataStudentResultStatusEnum | RequestResultUpdateSchoolResultStatusEnum | null
+): string {
+    if (status === 'Accepted') return 'Принято';
+    else if (status === 'Rejected') return 'Отклонено';
+
+    return 'В ожидании...';
 }
