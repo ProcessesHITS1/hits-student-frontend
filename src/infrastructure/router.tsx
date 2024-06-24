@@ -7,6 +7,7 @@ import { Routes } from "./routes";
 import { Progress } from "../components/progress/Progress";
 import { NavbarContainer } from "../components/common/Navbar/NavbarContainer";
 import { Chats } from "../components/chats/Chats";
+import { Practice } from "../components/practice/Practice";
 
 export const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<Root />}>
@@ -15,6 +16,7 @@ export const router = createBrowserRouter(createRoutesFromElements(
         <Route path={Routes.Profile} element={<Profile />} />
         <Route path={Routes.Companies} element={<Companies />}/>
         <Route path={Routes.Chats} element={<Chats />} />
+        <Route path={Routes.Practice} element={<Practice />}/>
         <Route path={Routes.Progress}>
           <Route path=":requestId" element={<Progress />}/>
         </Route>

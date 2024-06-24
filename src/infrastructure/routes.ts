@@ -3,5 +3,6 @@ export enum Routes {
     Companies = "companies",
     Profile = "profile",
     Progress = "progress",
-    Chats = "chats"
+    Chats = "chats",
+    Practice = "practice"
 }

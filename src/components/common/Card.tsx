@@ -16,7 +16,7 @@ export const Card: FC<Props> = props => {
 
     return (
         <div className={`flex flex-col border text-slate-200 w-full ${props.isCurrent ? 'border-blue-400' : ''}`}>
-            <div className={`py-2 px-4 ${isExpanded ? 'border-b' : ''} text-slate-200 relative`}>
+            <div className={`py-2 px-4 ${isExpanded ? 'border-b' : ''} text-slate-200`}>
                 {props.header(isExpanded)}
                 {props.isExpandable && 
                     <div className="absolute w-4 h-4 bg-red-900 top-2 right-2 hover:cursor-pointer" onClick={toggleExpanded}>
@@ -24,7 +24,7 @@ export const Card: FC<Props> = props => {
                 }
             </div>
             {props.body && isExpanded &&
-                <div className="flex flex-col p-4 gap-2">
+                <div className="flex p-4">
                     {props.body(isExpanded)}
                 </div>
             }

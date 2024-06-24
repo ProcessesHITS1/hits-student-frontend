@@ -26,10 +26,6 @@ type QueryParams = {
     year: number;
 }
 
-type p = {
-    what?: number;
-}
-
 export const NavOptionsContainer: FC<Props> = props => {
     const { season } = useContext(SeasonContext);
     const navigate = useNavigate();
@@ -59,12 +55,14 @@ export const NavOptionsContainer: FC<Props> = props => {
                 <NavOption to={Routes.Profile} text={"Профиль"} activeLogoSrc={avatarLogoDark} deactiveLogoSrc={avatarLogoLight} onClick={props.onLinkClick}/>
                 <NavOption to={Routes.Companies} text={"Компании"} activeLogoSrc={smileLogoDark} deactiveLogoSrc={smileLogoLight} onClick={props.onLinkClick}/>
                 <NavOption to={Routes.Chats} text={"Сообщения"} activeLogoSrc={chatLogoDark} deactiveLogoSrc={chatLogoLight} onClick={props.onLinkClick}/>
+                <NavOption to={Routes.Practice} text="Практика" activeLogoSrc={avatarLogoDark} deactiveLogoSrc={avatarLogoLight} onClick={props.onLinkClick}/>
                 <MenuNavOption 
                     to={Routes.Progress} 
                     text={"Прогресс"} 
                     logo={progressLogoLight} 
                     items={requests ? requests.items!.map(x => ({ id: x.id, text: x.positionTitle ?? '' })) : []} 
-                    onItemClick={props.onLinkClick}/>
+                    onItemClick={props.onLinkClick}
+                />
             </nav>
             <Button className="my-2 w-full justify-start flex px-4" onClick={onLogout}>
                 <H5 text={"< Выйти"} className="text-white"/>
