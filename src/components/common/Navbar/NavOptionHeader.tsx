@@ -11,7 +11,7 @@ export const NavOptionHeader: FC<Props> = props => {
     return (
         <div className="flex flex-row gap-3 items-center w-full">
             {props.img && <img className="w-8 h-8" src={props.img}></img>}
-            <H4 text={props.text} color={props.textColor}/>
+            <H4 text={props.text} className={props.textColor}/>
         </div>
     );
 }

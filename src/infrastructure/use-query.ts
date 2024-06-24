@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 
 type Request<TParams, TResult> = (params: TParams) => Promise<AxiosResponse<TResult, any>>;
 
-type DeepRequired<T> = {
+export type DeepRequired<T> = {
     [K in keyof T]: Required<DeepRequired<T[K]>>
 };
 
@@ -15,22 +15,26 @@ export type QueryProperties<TParams, TResult> = {
 };
 
 export function useQuery<TResult>(
-    request: Request<undefined, TResult>
+    request: Request<undefined, TResult>,
+    executeImmediately?: boolean
 ): QueryProperties<undefined, TResult>;
 
 export function useQuery<TParams, TResult>(
     request: Request<TParams, TResult>,
-    defaultParams: TParams
+    defaultParams: TParams,
+    executeImmediately?: boolean
 ): QueryProperties<TParams, TResult>;
 
 export function useQuery<TParams, TResult>(
     request: Request<TParams | undefined, TResult>,
-    defaultParams?: TParams
+    defaultParams?: TParams,
+    executeImmediately?: boolean
 ): QueryProperties<TParams, TResult>;
 
 export function useQuery<TParams, TResult>(
     request: Request<TParams | undefined, TResult>,
-    defaultParams?: TParams
+    defaultParams?: TParams,
+    executeImmediately: boolean = true,
 ): QueryProperties<TParams, TResult> {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState<DeepRequired<TResult> | undefined>();
@@ -39,6 +43,7 @@ export function useQuery<TParams, TResult>(
         async (params?: TParams) => {
             setIsLoading(true);
             const response = await request(params ?? defaultParams);
+            console.log(response);
             setIsLoading(false);
 
             if (!response.data) return;
@@ -48,7 +53,11 @@ export function useQuery<TParams, TResult>(
         [setData, setIsLoading, defaultParams]
     );
 
-    useAsyncEffect(() => refetch(defaultParams), []);
+    useAsyncEffect(async () => {
+        if (executeImmediately) {
+            await refetch(defaultParams);
+        }
+    }, []);
 
     return { isLoading, data, refetch }
 }
@@ -56,6 +65,10 @@ export function useQuery<TParams, TResult>(
 function requirify<T extends object>(target: T): DeepRequired<T>;
 function requirify<T extends object>(target: T[]): DeepRequired<T>[];
 function requirify<T extends object>(target: T | T[]): DeepRequired<T> | DeepRequired<T>[] {
+    if (target === null) {
+        return target as DeepRequired<T>;
+    }
+
     if (Array.isArray(target)) {
         return target.map(t => requirify(t));
     }

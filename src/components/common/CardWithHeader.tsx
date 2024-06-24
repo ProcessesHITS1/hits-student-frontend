@@ -9,7 +9,7 @@ type Props = CommonCardProps & {
 export const CardWithHeader: FC<Props> = props => {
     return (
         <Card 
-            header={() => <H5 text={props.headerText} color="text-black"/>} 
+            header={() => <H5 text={props.headerText} className="text-black"/>} 
             body={props.body}       
         />
     );

@@ -18,7 +18,7 @@ export const Priority: FC<Props> = props => {
                     {!props.isFirst && <div className="w-2 h-3 rounded-t-full bg-blue-500 hover:cursor-pointer" onClick={props.onUp}></div>}
                     {!props.isLast && <div className="w-2 h-3 rounded-b-full bg-blue-500 hover:cursor-pointer" onClick={props.onDown}></div>}
                 </div>
-                <H5 text={props.name} color="text-black/85"/>
+                <H5 text={props.name} className="text-black/85"/>
             </div>
         </UnderlinedItem>
     );

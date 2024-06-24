@@ -35,6 +35,14 @@
         "additionalProperties": {
           "supportsES6": true
         }
+      },
+      "internship": {
+        "generatorName": "typescript-axios",
+        "inputSpec": "http://localhost:8091/v3/api-docs",
+        "output": "./src/api/clients/internship",
+        "additionalProperties": {
+          "supportsES6": true
+        }
       }
     }
   }

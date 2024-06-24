@@ -24,6 +24,18 @@ import type { RequestArgs } from './base';
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
 /**
+ * @type ApiPositionPostRequest
+ * @export
+ */
+export type ApiPositionPostRequest = PositionCreation | PositionInfo;
+
+/**
+ * @type ApiSeasonYearPutRequest
+ * @export
+ */
+export type ApiSeasonYearPutRequest = Season | SeasonData;
+
+/**
  * 
  * @export
  * @interface CompanyInSeasonInfo
@@ -82,37 +94,37 @@ export interface PaginationInfo {
 /**
  * 
  * @export
- * @interface PositionData
+ * @interface PositionCreation
  */
-export interface PositionData {
+export interface PositionCreation {
     /**
      * 
      * @type {string}
-     * @memberof PositionData
+     * @memberof PositionCreation
      */
     'title'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof PositionData
+     * @memberof PositionCreation
      */
     'description'?: string | null;
     /**
      * 
      * @type {number}
-     * @memberof PositionData
+     * @memberof PositionCreation
      */
     'nSeats'?: number;
     /**
      * 
      * @type {string}
-     * @memberof PositionData
+     * @memberof PositionCreation
      */
     'companyId'?: string;
     /**
      * 
      * @type {number}
-     * @memberof PositionData
+     * @memberof PositionCreation
      */
     'seasonYear'?: number;
 }
@@ -122,36 +134,6 @@ export interface PositionData {
  * @interface PositionInfo
  */
 export interface PositionInfo {
-    /**
-     * 
-     * @type {string}
-     * @memberof PositionInfo
-     */
-    'title'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof PositionInfo
-     */
-    'description'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof PositionInfo
-     */
-    'nSeats'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof PositionInfo
-     */
-    'companyId'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof PositionInfo
-     */
-    'seasonYear'?: number;
     /**
      * 
      * @type {string}
@@ -170,6 +152,36 @@ export interface PositionInfo {
      * @memberof PositionInfo
      */
     'companyName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PositionInfo
+     */
+    'title'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PositionInfo
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PositionInfo
+     */
+    'nSeats'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PositionInfo
+     */
+    'companyId'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PositionInfo
+     */
+    'seasonYear'?: number;
 }
 /**
  * 
@@ -182,13 +194,112 @@ export interface PositionInfoPaginatedItems {
      * @type {PaginationInfo}
      * @memberof PositionInfoPaginatedItems
      */
-    'paginationInfo'?: PaginationInfo;
+    'paginationInfo'?: PaginationInfo | null;
     /**
      * 
      * @type {Array<PositionInfo>}
      * @memberof PositionInfoPaginatedItems
      */
     'items'?: Array<PositionInfo> | null;
+}
+/**
+ * 
+ * @export
+ * @interface PositionUpdate
+ */
+export interface PositionUpdate {
+    /**
+     * 
+     * @type {string}
+     * @memberof PositionUpdate
+     */
+    'title'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PositionUpdate
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PositionUpdate
+     */
+    'nSeats'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface RequestData
+ */
+export interface RequestData {
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestData
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestData
+     */
+    'studentId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestData
+     */
+    'companyId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestData
+     */
+    'studentName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestData
+     */
+    'positionId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestData
+     */
+    'positionTitle'?: string | null;
+    /**
+     * 
+     * @type {Array<RequestStatusSnapshotData>}
+     * @memberof RequestData
+     */
+    'requestStatusSnapshots'?: Array<RequestStatusSnapshotData> | null;
+    /**
+     * 
+     * @type {RequestResultData}
+     * @memberof RequestData
+     */
+    'requestResult'?: RequestResultData | null;
+}
+/**
+ * 
+ * @export
+ * @interface RequestDataPaginatedItems
+ */
+export interface RequestDataPaginatedItems {
+    /**
+     * 
+     * @type {PaginationInfo}
+     * @memberof RequestDataPaginatedItems
+     */
+    'paginationInfo'?: PaginationInfo | null;
+    /**
+     * 
+     * @type {Array<RequestData>}
+     * @memberof RequestDataPaginatedItems
+     */
+    'items'?: Array<RequestData> | null;
 }
 /**
  * 
@@ -216,34 +327,176 @@ export interface RequestDetails {
     'positionId'?: string;
     /**
      * 
-     * @type {RequestStatus}
+     * @type {string}
      * @memberof RequestDetails
      */
-    'status'?: RequestStatus;
+    'status'?: RequestDetailsStatusEnum;
 }
 
+export const RequestDetailsStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
+} as const;
+
+export type RequestDetailsStatusEnum = typeof RequestDetailsStatusEnum[keyof typeof RequestDetailsStatusEnum];
 
 /**
  * 
  * @export
- * @enum {string}
+ * @interface RequestResultData
  */
+export interface RequestResultData {
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestResultData
+     */
+    'studentResultStatus'?: RequestResultDataStudentResultStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestResultData
+     */
+    'schoolResultStatus'?: RequestResultDataSchoolResultStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestResultData
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RequestResultData
+     */
+    'offerGiven'?: boolean;
+}
 
-export const RequestStatus = {
-    NUMBER_0: 0,
-    NUMBER_1: 1,
-    NUMBER_2: 2
+export const RequestResultDataStudentResultStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
 } as const;
 
-export type RequestStatus = typeof RequestStatus[keyof typeof RequestStatus];
+export type RequestResultDataStudentResultStatusEnum = typeof RequestResultDataStudentResultStatusEnum[keyof typeof RequestResultDataStudentResultStatusEnum];
+export const RequestResultDataSchoolResultStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
+} as const;
 
+export type RequestResultDataSchoolResultStatusEnum = typeof RequestResultDataSchoolResultStatusEnum[keyof typeof RequestResultDataSchoolResultStatusEnum];
 
+/**
+ * 
+ * @export
+ * @interface RequestResultUpdate
+ */
+export interface RequestResultUpdate {
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestResultUpdate
+     */
+    'studentResultStatus'?: RequestResultUpdateStudentResultStatusEnum | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestResultUpdate
+     */
+    'schoolResultStatus'?: RequestResultUpdateSchoolResultStatusEnum | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestResultUpdate
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RequestResultUpdate
+     */
+    'offerGiven'?: boolean | null;
+}
+
+export const RequestResultUpdateStudentResultStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
+} as const;
+
+export type RequestResultUpdateStudentResultStatusEnum = typeof RequestResultUpdateStudentResultStatusEnum[keyof typeof RequestResultUpdateStudentResultStatusEnum];
+export const RequestResultUpdateSchoolResultStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
+} as const;
+
+export type RequestResultUpdateSchoolResultStatusEnum = typeof RequestResultUpdateSchoolResultStatusEnum[keyof typeof RequestResultUpdateSchoolResultStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface RequestStatusSnapshotData
+ */
+export interface RequestStatusSnapshotData {
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestStatusSnapshotData
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestStatusSnapshotData
+     */
+    'dateTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestStatusSnapshotData
+     */
+    'status'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface RequestStatusTemplateData
+ */
+export interface RequestStatusTemplateData {
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestStatusTemplateData
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestStatusTemplateData
+     */
+    'name'?: string | null;
+}
 /**
  * 
  * @export
  * @interface Season
  */
 export interface Season {
+    /**
+     * 
+     * @type {string}
+     * @memberof Season
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Season
+     */
+    'isClosed'?: boolean;
     /**
      * 
      * @type {number}
@@ -262,18 +515,6 @@ export interface Season {
      * @memberof Season
      */
     'seasonEnd'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Season
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Season
-     */
-    'isClosed'?: boolean;
 }
 /**
  * 
@@ -311,7 +552,7 @@ export interface SeasonDetails {
      * @type {Season}
      * @memberof SeasonDetails
      */
-    'season'?: Season;
+    'season'?: Season | null;
     /**
      * 
      * @type {Array<CompanyInSeasonInfo>}
@@ -675,12 +916,54 @@ export const PositionsApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary Создает новую позицию в компании в сезоне.
-         * @param {PositionData} [positionData] The data for the position.
+         * @summary Обновление позиции.
+         * @param {string} positionId The ID of the position to update.
+         * @param {PositionUpdate} [positionUpdate] Updated position data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPositionPost: async (positionData?: PositionData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiPositionPositionIdPut: async (positionId: string, positionUpdate?: PositionUpdate, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'positionId' is not null or undefined
+            assertParamExists('apiPositionPositionIdPut', 'positionId', positionId)
+            const localVarPath = `/api/position/{positionId}`
+                .replace(`{${"positionId"}}`, encodeURIComponent(String(positionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(positionUpdate, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Создает новую позицию в компании в сезоне.
+         * @param {ApiPositionPostRequest} [apiPositionPostRequest] The data for the position.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPositionPost: async (apiPositionPostRequest?: ApiPositionPostRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/position`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -704,7 +987,7 @@ export const PositionsApiAxiosParamCreator = function (configuration?: Configura
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(positionData, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(apiPositionPostRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -765,6 +1048,47 @@ export const PositionsApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {number} year 
+         * @param {string} positionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPositionYearPositionsPositionIdGet: async (year: number, positionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'year' is not null or undefined
+            assertParamExists('apiPositionYearPositionsPositionIdGet', 'year', year)
+            // verify required parameter 'positionId' is not null or undefined
+            assertParamExists('apiPositionYearPositionsPositionIdGet', 'positionId', positionId)
+            const localVarPath = `/api/position/{year}/positions/{positionId}`
+                .replace(`{${"year"}}`, encodeURIComponent(String(year)))
+                .replace(`{${"positionId"}}`, encodeURIComponent(String(positionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -790,13 +1114,27 @@ export const PositionsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Создает новую позицию в компании в сезоне.
-         * @param {PositionData} [positionData] The data for the position.
+         * @summary Обновление позиции.
+         * @param {string} positionId The ID of the position to update.
+         * @param {PositionUpdate} [positionUpdate] Updated position data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiPositionPost(positionData?: PositionData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PositionInfo>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPositionPost(positionData, options);
+        async apiPositionPositionIdPut(positionId: string, positionUpdate?: PositionUpdate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PositionUpdate>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPositionPositionIdPut(positionId, positionUpdate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PositionsApi.apiPositionPositionIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Создает новую позицию в компании в сезоне.
+         * @param {ApiPositionPostRequest} [apiPositionPostRequest] The data for the position.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPositionPost(apiPositionPostRequest?: ApiPositionPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PositionInfo>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPositionPost(apiPositionPostRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PositionsApi.apiPositionPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -815,6 +1153,19 @@ export const PositionsApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiPositionSearchGet(year, companies, q, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PositionsApi.apiPositionSearchGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} year 
+         * @param {string} positionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPositionYearPositionsPositionIdGet(year: number, positionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PositionInfo>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPositionYearPositionsPositionIdGet(year, positionId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PositionsApi.apiPositionYearPositionsPositionIdGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -839,13 +1190,24 @@ export const PositionsApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary Создает новую позицию в компании в сезоне.
-         * @param {PositionData} [positionData] The data for the position.
+         * @summary Обновление позиции.
+         * @param {string} positionId The ID of the position to update.
+         * @param {PositionUpdate} [positionUpdate] Updated position data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPositionPost(positionData?: PositionData, options?: any): AxiosPromise<PositionInfo> {
-            return localVarFp.apiPositionPost(positionData, options).then((request) => request(axios, basePath));
+        apiPositionPositionIdPut(positionId: string, positionUpdate?: PositionUpdate, options?: any): AxiosPromise<PositionUpdate> {
+            return localVarFp.apiPositionPositionIdPut(positionId, positionUpdate, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Создает новую позицию в компании в сезоне.
+         * @param {ApiPositionPostRequest} [apiPositionPostRequest] The data for the position.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPositionPost(apiPositionPostRequest?: ApiPositionPostRequest, options?: any): AxiosPromise<PositionInfo> {
+            return localVarFp.apiPositionPost(apiPositionPostRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -859,6 +1221,16 @@ export const PositionsApiFactory = function (configuration?: Configuration, base
          */
         apiPositionSearchGet(year?: number, companies?: Array<string>, q?: string, page?: number, options?: any): AxiosPromise<PositionInfoPaginatedItems> {
             return localVarFp.apiPositionSearchGet(year, companies, q, page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} year 
+         * @param {string} positionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPositionYearPositionsPositionIdGet(year: number, positionId: string, options?: any): AxiosPromise<PositionInfo> {
+            return localVarFp.apiPositionYearPositionsPositionIdGet(year, positionId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -884,14 +1256,27 @@ export class PositionsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Создает новую позицию в компании в сезоне.
-     * @param {PositionData} [positionData] The data for the position.
+     * @summary Обновление позиции.
+     * @param {string} positionId The ID of the position to update.
+     * @param {PositionUpdate} [positionUpdate] Updated position data.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PositionsApi
      */
-    public apiPositionPost(positionData?: PositionData, options?: RawAxiosRequestConfig) {
-        return PositionsApiFp(this.configuration).apiPositionPost(positionData, options).then((request) => request(this.axios, this.basePath));
+    public apiPositionPositionIdPut(positionId: string, positionUpdate?: PositionUpdate, options?: RawAxiosRequestConfig) {
+        return PositionsApiFp(this.configuration).apiPositionPositionIdPut(positionId, positionUpdate, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Создает новую позицию в компании в сезоне.
+     * @param {ApiPositionPostRequest} [apiPositionPostRequest] The data for the position.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PositionsApi
+     */
+    public apiPositionPost(apiPositionPostRequest?: ApiPositionPostRequest, options?: RawAxiosRequestConfig) {
+        return PositionsApiFp(this.configuration).apiPositionPost(apiPositionPostRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -908,6 +1293,18 @@ export class PositionsApi extends BaseAPI {
     public apiPositionSearchGet(year?: number, companies?: Array<string>, q?: string, page?: number, options?: RawAxiosRequestConfig) {
         return PositionsApiFp(this.configuration).apiPositionSearchGet(year, companies, q, page, options).then((request) => request(this.axios, this.basePath));
     }
+
+    /**
+     * 
+     * @param {number} year 
+     * @param {string} positionId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PositionsApi
+     */
+    public apiPositionYearPositionsPositionIdGet(year: number, positionId: string, options?: RawAxiosRequestConfig) {
+        return PositionsApiFp(this.configuration).apiPositionYearPositionsPositionIdGet(year, positionId, options).then((request) => request(this.axios, this.basePath));
+    }
 }
 
 
@@ -920,43 +1317,17 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
+         * @summary Получает информацию о запросах стажировку. Endpoint для администратора.
+         * @param {Array<number>} [seasons] Фильтрация по сезонам
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
+         * @param {Array<string>} [studentIds] фильтрация по студентам.
+         * @param {number} [page] 
+         * @param {number} [pageSize] 
+         * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestDelete: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/request`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiRequestGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiRequestGet: async (seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/request`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -973,6 +1344,30 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            if (seasons) {
+                localVarQueryParameter['seasons'] = seasons;
+            }
+
+            if (companyIds) {
+                localVarQueryParameter['companyIds'] = companyIds;
+            }
+
+            if (studentIds) {
+                localVarQueryParameter['studentIds'] = studentIds;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+            if (includeHistory !== undefined) {
+                localVarQueryParameter['includeHistory'] = includeHistory;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -986,15 +1381,17 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {string} id 
+         * @summary Получает информацию о запросах стажировку. Endpoint для студента.
+         * @param {Array<number>} [seasons] фильтрация по сезонам
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
+         * @param {number} [page] 
+         * @param {number} [pageSize] 
+         * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestIdGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiRequestIdGet', 'id', id)
-            const localVarPath = `/api/request/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        apiRequestMyGet: async (seasons?: Array<number>, companyIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/request/my`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1010,6 +1407,26 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            if (seasons) {
+                localVarQueryParameter['seasons'] = seasons;
+            }
+
+            if (companyIds) {
+                localVarQueryParameter['companyIds'] = companyIds;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+            if (includeHistory !== undefined) {
+                localVarQueryParameter['includeHistory'] = includeHistory;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1023,15 +1440,20 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Создать запрос с начальным статусом.
          * @param {string} positionId 
+         * @param {string} requestStatusId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestPositionPositionIdPost: async (positionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiRequestPositionPositionIdStatusRequestStatusIdPost: async (positionId: string, requestStatusId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'positionId' is not null or undefined
-            assertParamExists('apiRequestPositionPositionIdPost', 'positionId', positionId)
-            const localVarPath = `/api/request/position/{positionId}`
-                .replace(`{${"positionId"}}`, encodeURIComponent(String(positionId)));
+            assertParamExists('apiRequestPositionPositionIdStatusRequestStatusIdPost', 'positionId', positionId)
+            // verify required parameter 'requestStatusId' is not null or undefined
+            assertParamExists('apiRequestPositionPositionIdStatusRequestStatusIdPost', 'requestStatusId', requestStatusId)
+            const localVarPath = `/api/request/position/{positionId}/status/{requestStatusId}`
+                .replace(`{${"positionId"}}`, encodeURIComponent(String(positionId)))
+                .replace(`{${"requestStatusId"}}`, encodeURIComponent(String(requestStatusId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1060,11 +1482,57 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @param {string} requestId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestRequestStatusPut: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/request/request_status`;
+        apiRequestRequestIdGet: async (requestId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requestId' is not null or undefined
+            assertParamExists('apiRequestRequestIdGet', 'requestId', requestId)
+            const localVarPath = `/api/request/{requestId}`
+                .replace(`{${"requestId"}}`, encodeURIComponent(String(requestId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Обновить статус запроса.
+         * @param {string} requestId 
+         * @param {string} requestStatusId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiRequestRequestIdRequestStatusRequestStatusIdPut: async (requestId: string, requestStatusId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requestId' is not null or undefined
+            assertParamExists('apiRequestRequestIdRequestStatusRequestStatusIdPut', 'requestId', requestId)
+            // verify required parameter 'requestStatusId' is not null or undefined
+            assertParamExists('apiRequestRequestIdRequestStatusRequestStatusIdPut', 'requestStatusId', requestStatusId)
+            const localVarPath = `/api/request/{requestId}/request_status/{requestStatusId}`
+                .replace(`{${"requestId"}}`, encodeURIComponent(String(requestId)))
+                .replace(`{${"requestStatusId"}}`, encodeURIComponent(String(requestStatusId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1093,11 +1561,17 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Обновить результат запроса. Статусы:(Pending,Accepted,Rejected)
+         * @param {string} requestId 
+         * @param {RequestResultUpdate} [requestResultUpdate] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestResultStatusPut: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/request/result_status`;
+        apiRequestRequestIdResultStatusPut: async (requestId: string, requestResultUpdate?: RequestResultUpdate, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requestId' is not null or undefined
+            assertParamExists('apiRequestRequestIdResultStatusPut', 'requestId', requestId)
+            const localVarPath = `/api/request/{requestId}/result_status`
+                .replace(`{${"requestId"}}`, encodeURIComponent(String(requestId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1115,9 +1589,12 @@ export const RequestApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestResultUpdate, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1136,70 +1613,91 @@ export const RequestApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Получает информацию о запросах стажировку. Endpoint для администратора.
+         * @param {Array<number>} [seasons] Фильтрация по сезонам
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
+         * @param {Array<string>} [studentIds] фильтрация по студентам.
+         * @param {number} [page] 
+         * @param {number} [pageSize] 
+         * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiRequestDelete(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestDelete(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestDelete']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiRequestGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestGet(options);
+        async apiRequestGet(seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RequestDataPaginatedItems>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestGet(seasons, companyIds, studentIds, page, pageSize, includeHistory, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} id 
+         * @summary Получает информацию о запросах стажировку. Endpoint для студента.
+         * @param {Array<number>} [seasons] фильтрация по сезонам
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
+         * @param {number} [page] 
+         * @param {number} [pageSize] 
+         * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiRequestIdGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestIdGet(id, options);
+        async apiRequestMyGet(seasons?: Array<number>, companyIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RequestDataPaginatedItems>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestMyGet(seasons, companyIds, page, pageSize, includeHistory, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestIdGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestMyGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
+         * @summary Создать запрос с начальным статусом.
          * @param {string} positionId 
+         * @param {string} requestStatusId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiRequestPositionPositionIdPost(positionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RequestDetails>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestPositionPositionIdPost(positionId, options);
+        async apiRequestPositionPositionIdStatusRequestStatusIdPost(positionId: string, requestStatusId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RequestDetails>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestPositionPositionIdStatusRequestStatusIdPost(positionId, requestStatusId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestPositionPositionIdPost']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestPositionPositionIdStatusRequestStatusIdPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
+         * @param {string} requestId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiRequestRequestStatusPut(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestRequestStatusPut(options);
+        async apiRequestRequestIdGet(requestId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RequestData>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestRequestIdGet(requestId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestRequestStatusPut']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestRequestIdGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
+         * @summary Обновить статус запроса.
+         * @param {string} requestId 
+         * @param {string} requestStatusId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiRequestResultStatusPut(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestResultStatusPut(options);
+        async apiRequestRequestIdRequestStatusRequestStatusIdPut(requestId: string, requestStatusId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestRequestIdRequestStatusRequestStatusIdPut(requestId, requestStatusId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestResultStatusPut']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestRequestIdRequestStatusRequestStatusIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Обновить результат запроса. Статусы:(Pending,Accepted,Rejected)
+         * @param {string} requestId 
+         * @param {RequestResultUpdate} [requestResultUpdate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiRequestRequestIdResultStatusPut(requestId: string, requestResultUpdate?: RequestResultUpdate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRequestRequestIdResultStatusPut(requestId, requestResultUpdate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RequestApi.apiRequestRequestIdResultStatusPut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -1214,53 +1712,74 @@ export const RequestApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Получает информацию о запросах стажировку. Endpoint для администратора.
+         * @param {Array<number>} [seasons] Фильтрация по сезонам
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
+         * @param {Array<string>} [studentIds] фильтрация по студентам.
+         * @param {number} [page] 
+         * @param {number} [pageSize] 
+         * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestDelete(options?: any): AxiosPromise<void> {
-            return localVarFp.apiRequestDelete(options).then((request) => request(axios, basePath));
+        apiRequestGet(seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: any): AxiosPromise<RequestDataPaginatedItems> {
+            return localVarFp.apiRequestGet(seasons, companyIds, studentIds, page, pageSize, includeHistory, options).then((request) => request(axios, basePath));
         },
         /**
          * 
+         * @summary Получает информацию о запросах стажировку. Endpoint для студента.
+         * @param {Array<number>} [seasons] фильтрация по сезонам
+         * @param {Array<string>} [companyIds] фильтрация по компаниям
+         * @param {number} [page] 
+         * @param {number} [pageSize] 
+         * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestGet(options?: any): AxiosPromise<void> {
-            return localVarFp.apiRequestGet(options).then((request) => request(axios, basePath));
+        apiRequestMyGet(seasons?: Array<number>, companyIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: any): AxiosPromise<RequestDataPaginatedItems> {
+            return localVarFp.apiRequestMyGet(seasons, companyIds, page, pageSize, includeHistory, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiRequestIdGet(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.apiRequestIdGet(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
+         * @summary Создать запрос с начальным статусом.
          * @param {string} positionId 
+         * @param {string} requestStatusId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestPositionPositionIdPost(positionId: string, options?: any): AxiosPromise<RequestDetails> {
-            return localVarFp.apiRequestPositionPositionIdPost(positionId, options).then((request) => request(axios, basePath));
+        apiRequestPositionPositionIdStatusRequestStatusIdPost(positionId: string, requestStatusId: string, options?: any): AxiosPromise<RequestDetails> {
+            return localVarFp.apiRequestPositionPositionIdStatusRequestStatusIdPost(positionId, requestStatusId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
+         * @param {string} requestId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestRequestStatusPut(options?: any): AxiosPromise<void> {
-            return localVarFp.apiRequestRequestStatusPut(options).then((request) => request(axios, basePath));
+        apiRequestRequestIdGet(requestId: string, options?: any): AxiosPromise<RequestData> {
+            return localVarFp.apiRequestRequestIdGet(requestId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
+         * @summary Обновить статус запроса.
+         * @param {string} requestId 
+         * @param {string} requestStatusId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRequestResultStatusPut(options?: any): AxiosPromise<void> {
-            return localVarFp.apiRequestResultStatusPut(options).then((request) => request(axios, basePath));
+        apiRequestRequestIdRequestStatusRequestStatusIdPut(requestId: string, requestStatusId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiRequestRequestIdRequestStatusRequestStatusIdPut(requestId, requestStatusId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Обновить результат запроса. Статусы:(Pending,Accepted,Rejected)
+         * @param {string} requestId 
+         * @param {RequestResultUpdate} [requestResultUpdate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiRequestRequestIdResultStatusPut(requestId: string, requestResultUpdate?: RequestResultUpdate, options?: any): AxiosPromise<void> {
+            return localVarFp.apiRequestRequestIdResultStatusPut(requestId, requestResultUpdate, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1274,64 +1793,277 @@ export const RequestApiFactory = function (configuration?: Configuration, basePa
 export class RequestApi extends BaseAPI {
     /**
      * 
+     * @summary Получает информацию о запросах стажировку. Endpoint для администратора.
+     * @param {Array<number>} [seasons] Фильтрация по сезонам
+     * @param {Array<string>} [companyIds] фильтрация по компаниям
+     * @param {Array<string>} [studentIds] фильтрация по студентам.
+     * @param {number} [page] 
+     * @param {number} [pageSize] 
+     * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RequestApi
      */
-    public apiRequestDelete(options?: RawAxiosRequestConfig) {
-        return RequestApiFp(this.configuration).apiRequestDelete(options).then((request) => request(this.axios, this.basePath));
+    public apiRequestGet(seasons?: Array<number>, companyIds?: Array<string>, studentIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: RawAxiosRequestConfig) {
+        return RequestApiFp(this.configuration).apiRequestGet(seasons, companyIds, studentIds, page, pageSize, includeHistory, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
+     * @summary Получает информацию о запросах стажировку. Endpoint для студента.
+     * @param {Array<number>} [seasons] фильтрация по сезонам
+     * @param {Array<string>} [companyIds] фильтрация по компаниям
+     * @param {number} [page] 
+     * @param {number} [pageSize] 
+     * @param {boolean} [includeHistory] включать всю историю статусов, или включать только текущий статус запроса.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RequestApi
      */
-    public apiRequestGet(options?: RawAxiosRequestConfig) {
-        return RequestApiFp(this.configuration).apiRequestGet(options).then((request) => request(this.axios, this.basePath));
+    public apiRequestMyGet(seasons?: Array<number>, companyIds?: Array<string>, page?: number, pageSize?: number, includeHistory?: boolean, options?: RawAxiosRequestConfig) {
+        return RequestApiFp(this.configuration).apiRequestMyGet(seasons, companyIds, page, pageSize, includeHistory, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RequestApi
-     */
-    public apiRequestIdGet(id: string, options?: RawAxiosRequestConfig) {
-        return RequestApiFp(this.configuration).apiRequestIdGet(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
+     * @summary Создать запрос с начальным статусом.
      * @param {string} positionId 
+     * @param {string} requestStatusId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RequestApi
      */
-    public apiRequestPositionPositionIdPost(positionId: string, options?: RawAxiosRequestConfig) {
-        return RequestApiFp(this.configuration).apiRequestPositionPositionIdPost(positionId, options).then((request) => request(this.axios, this.basePath));
+    public apiRequestPositionPositionIdStatusRequestStatusIdPost(positionId: string, requestStatusId: string, options?: RawAxiosRequestConfig) {
+        return RequestApiFp(this.configuration).apiRequestPositionPositionIdStatusRequestStatusIdPost(positionId, requestStatusId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
+     * @param {string} requestId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RequestApi
      */
-    public apiRequestRequestStatusPut(options?: RawAxiosRequestConfig) {
-        return RequestApiFp(this.configuration).apiRequestRequestStatusPut(options).then((request) => request(this.axios, this.basePath));
+    public apiRequestRequestIdGet(requestId: string, options?: RawAxiosRequestConfig) {
+        return RequestApiFp(this.configuration).apiRequestRequestIdGet(requestId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
+     * @summary Обновить статус запроса.
+     * @param {string} requestId 
+     * @param {string} requestStatusId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RequestApi
      */
-    public apiRequestResultStatusPut(options?: RawAxiosRequestConfig) {
-        return RequestApiFp(this.configuration).apiRequestResultStatusPut(options).then((request) => request(this.axios, this.basePath));
+    public apiRequestRequestIdRequestStatusRequestStatusIdPut(requestId: string, requestStatusId: string, options?: RawAxiosRequestConfig) {
+        return RequestApiFp(this.configuration).apiRequestRequestIdRequestStatusRequestStatusIdPut(requestId, requestStatusId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Обновить результат запроса. Статусы:(Pending,Accepted,Rejected)
+     * @param {string} requestId 
+     * @param {RequestResultUpdate} [requestResultUpdate] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RequestApi
+     */
+    public apiRequestRequestIdResultStatusPut(requestId: string, requestResultUpdate?: RequestResultUpdate, options?: RawAxiosRequestConfig) {
+        return RequestApiFp(this.configuration).apiRequestRequestIdResultStatusPut(requestId, requestResultUpdate, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * RequestStatusTemplatesApi - axios parameter creator
+ * @export
+ */
+export const RequestStatusTemplatesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Создать статус в сезоне
+         * @param {number} year 
+         * @param {string} statusName 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        seasonYearRequestStatusStatusNamePost: async (year: number, statusName: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'year' is not null or undefined
+            assertParamExists('seasonYearRequestStatusStatusNamePost', 'year', year)
+            // verify required parameter 'statusName' is not null or undefined
+            assertParamExists('seasonYearRequestStatusStatusNamePost', 'statusName', statusName)
+            const localVarPath = `/season/{year}/request_status/{statusName}`
+                .replace(`{${"year"}}`, encodeURIComponent(String(year)))
+                .replace(`{${"statusName"}}`, encodeURIComponent(String(statusName)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Получает все допустимые статусы запроса в сезоне
+         * @param {number} year 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        seasonYearRequestStatusesGet: async (year: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'year' is not null or undefined
+            assertParamExists('seasonYearRequestStatusesGet', 'year', year)
+            const localVarPath = `/season/{year}/request_statuses`
+                .replace(`{${"year"}}`, encodeURIComponent(String(year)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * RequestStatusTemplatesApi - functional programming interface
+ * @export
+ */
+export const RequestStatusTemplatesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = RequestStatusTemplatesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Создать статус в сезоне
+         * @param {number} year 
+         * @param {string} statusName 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async seasonYearRequestStatusStatusNamePost(year: number, statusName: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.seasonYearRequestStatusStatusNamePost(year, statusName, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RequestStatusTemplatesApi.seasonYearRequestStatusStatusNamePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Получает все допустимые статусы запроса в сезоне
+         * @param {number} year 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async seasonYearRequestStatusesGet(year: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RequestStatusTemplateData>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.seasonYearRequestStatusesGet(year, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RequestStatusTemplatesApi.seasonYearRequestStatusesGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * RequestStatusTemplatesApi - factory interface
+ * @export
+ */
+export const RequestStatusTemplatesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = RequestStatusTemplatesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Создать статус в сезоне
+         * @param {number} year 
+         * @param {string} statusName 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        seasonYearRequestStatusStatusNamePost(year: number, statusName: string, options?: any): AxiosPromise<void> {
+            return localVarFp.seasonYearRequestStatusStatusNamePost(year, statusName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Получает все допустимые статусы запроса в сезоне
+         * @param {number} year 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        seasonYearRequestStatusesGet(year: number, options?: any): AxiosPromise<Array<RequestStatusTemplateData>> {
+            return localVarFp.seasonYearRequestStatusesGet(year, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * RequestStatusTemplatesApi - object-oriented interface
+ * @export
+ * @class RequestStatusTemplatesApi
+ * @extends {BaseAPI}
+ */
+export class RequestStatusTemplatesApi extends BaseAPI {
+    /**
+     * 
+     * @summary Создать статус в сезоне
+     * @param {number} year 
+     * @param {string} statusName 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RequestStatusTemplatesApi
+     */
+    public seasonYearRequestStatusStatusNamePost(year: number, statusName: string, options?: RawAxiosRequestConfig) {
+        return RequestStatusTemplatesApiFp(this.configuration).seasonYearRequestStatusStatusNamePost(year, statusName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Получает все допустимые статусы запроса в сезоне
+     * @param {number} year 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RequestStatusTemplatesApi
+     */
+    public seasonYearRequestStatusesGet(year: number, options?: RawAxiosRequestConfig) {
+        return RequestStatusTemplatesApiFp(this.configuration).seasonYearRequestStatusesGet(year, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1345,12 +2077,45 @@ export const SeasonsApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @summary Создает новый сезон.
-         * @param {SeasonData} [seasonData] The data for the new season.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSeasonPost: async (seasonData?: SeasonData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSeasonMyCurrentGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/season/my/current`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Создает новый сезон.
+         * @param {ApiSeasonYearPutRequest} [apiSeasonYearPutRequest] The data for the new season.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSeasonPost: async (apiSeasonYearPutRequest?: ApiSeasonYearPutRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/season`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1374,7 +2139,7 @@ export const SeasonsApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(seasonData, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(apiSeasonYearPutRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1538,11 +2303,11 @@ export const SeasonsApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary Обновляет сезон.
          * @param {number} year The year of the season to update.
-         * @param {SeasonData} [seasonData] The updated season data.
+         * @param {ApiSeasonYearPutRequest} [apiSeasonYearPutRequest] The updated season data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSeasonYearPut: async (year: number, seasonData?: SeasonData, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSeasonYearPut: async (year: number, apiSeasonYearPutRequest?: ApiSeasonYearPutRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'year' is not null or undefined
             assertParamExists('apiSeasonYearPut', 'year', year)
             const localVarPath = `/api/season/{year}`
@@ -1569,7 +2334,7 @@ export const SeasonsApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(seasonData, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(apiSeasonYearPutRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1622,13 +2387,24 @@ export const SeasonsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Создает новый сезон.
-         * @param {SeasonData} [seasonData] The data for the new season.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSeasonPost(seasonData?: SeasonData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Season>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonPost(seasonData, options);
+        async apiSeasonMyCurrentGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Season>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonMyCurrentGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SeasonsApi.apiSeasonMyCurrentGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Создает новый сезон.
+         * @param {ApiSeasonYearPutRequest} [apiSeasonYearPutRequest] The data for the new season.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSeasonPost(apiSeasonYearPutRequest?: ApiSeasonYearPutRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Season>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonPost(apiSeasonYearPutRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SeasonsApi.apiSeasonPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1690,12 +2466,12 @@ export const SeasonsApiFp = function(configuration?: Configuration) {
          * 
          * @summary Обновляет сезон.
          * @param {number} year The year of the season to update.
-         * @param {SeasonData} [seasonData] The updated season data.
+         * @param {ApiSeasonYearPutRequest} [apiSeasonYearPutRequest] The updated season data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSeasonYearPut(year: number, seasonData?: SeasonData, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Season>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonYearPut(year, seasonData, options);
+        async apiSeasonYearPut(year: number, apiSeasonYearPutRequest?: ApiSeasonYearPutRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Season>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSeasonYearPut(year, apiSeasonYearPutRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SeasonsApi.apiSeasonYearPut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1724,13 +2500,21 @@ export const SeasonsApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @summary Создает новый сезон.
-         * @param {SeasonData} [seasonData] The data for the new season.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSeasonPost(seasonData?: SeasonData, options?: any): AxiosPromise<Season> {
-            return localVarFp.apiSeasonPost(seasonData, options).then((request) => request(axios, basePath));
+        apiSeasonMyCurrentGet(options?: any): AxiosPromise<Season> {
+            return localVarFp.apiSeasonMyCurrentGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Создает новый сезон.
+         * @param {ApiSeasonYearPutRequest} [apiSeasonYearPutRequest] The data for the new season.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSeasonPost(apiSeasonYearPutRequest?: ApiSeasonYearPutRequest, options?: any): AxiosPromise<Season> {
+            return localVarFp.apiSeasonPost(apiSeasonYearPutRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1777,12 +2561,12 @@ export const SeasonsApiFactory = function (configuration?: Configuration, basePa
          * 
          * @summary Обновляет сезон.
          * @param {number} year The year of the season to update.
-         * @param {SeasonData} [seasonData] The updated season data.
+         * @param {ApiSeasonYearPutRequest} [apiSeasonYearPutRequest] The updated season data.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSeasonYearPut(year: number, seasonData?: SeasonData, options?: any): AxiosPromise<Season> {
-            return localVarFp.apiSeasonYearPut(year, seasonData, options).then((request) => request(axios, basePath));
+        apiSeasonYearPut(year: number, apiSeasonYearPutRequest?: ApiSeasonYearPutRequest, options?: any): AxiosPromise<Season> {
+            return localVarFp.apiSeasonYearPut(year, apiSeasonYearPutRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1805,14 +2589,24 @@ export const SeasonsApiFactory = function (configuration?: Configuration, basePa
 export class SeasonsApi extends BaseAPI {
     /**
      * 
-     * @summary Создает новый сезон.
-     * @param {SeasonData} [seasonData] The data for the new season.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SeasonsApi
      */
-    public apiSeasonPost(seasonData?: SeasonData, options?: RawAxiosRequestConfig) {
-        return SeasonsApiFp(this.configuration).apiSeasonPost(seasonData, options).then((request) => request(this.axios, this.basePath));
+    public apiSeasonMyCurrentGet(options?: RawAxiosRequestConfig) {
+        return SeasonsApiFp(this.configuration).apiSeasonMyCurrentGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Создает новый сезон.
+     * @param {ApiSeasonYearPutRequest} [apiSeasonYearPutRequest] The data for the new season.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SeasonsApi
+     */
+    public apiSeasonPost(apiSeasonYearPutRequest?: ApiSeasonYearPutRequest, options?: RawAxiosRequestConfig) {
+        return SeasonsApiFp(this.configuration).apiSeasonPost(apiSeasonYearPutRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1868,13 +2662,13 @@ export class SeasonsApi extends BaseAPI {
      * 
      * @summary Обновляет сезон.
      * @param {number} year The year of the season to update.
-     * @param {SeasonData} [seasonData] The updated season data.
+     * @param {ApiSeasonYearPutRequest} [apiSeasonYearPutRequest] The updated season data.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SeasonsApi
      */
-    public apiSeasonYearPut(year: number, seasonData?: SeasonData, options?: RawAxiosRequestConfig) {
-        return SeasonsApiFp(this.configuration).apiSeasonYearPut(year, seasonData, options).then((request) => request(this.axios, this.basePath));
+    public apiSeasonYearPut(year: number, apiSeasonYearPutRequest?: ApiSeasonYearPutRequest, options?: RawAxiosRequestConfig) {
+        return SeasonsApiFp(this.configuration).apiSeasonYearPut(year, apiSeasonYearPutRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

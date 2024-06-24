@@ -2,7 +2,7 @@ import { FC } from "react";
 
 type Props = {
     text: string;
-    color?: string;
+    className?: string;
 }
 
 const Header: FC<Props & { classes?: string }> = props => {
@@ -10,13 +10,13 @@ const Header: FC<Props & { classes?: string }> = props => {
 }
 
 export const H2: FC<Props> = props => {
-    return <Header text={props.text} classes={`text-3xl ${props.color}`} />
+    return <Header text={props.text} classes={`text-3xl ${props.className}`} />
 }
 
 export const H4: FC<Props> = props => {
-    return <Header text={props.text} classes={`text-xl ${props.color}`} />
+    return <Header text={props.text} classes={`text-xl ${props.className}`} />
 }
 
 export const H5: FC<Props> = props => {
-    return <Header text={props.text} classes={`text-lg ${props.color}`} />
+    return <Header text={props.text} classes={`text-lg ${props.className}`} />
 }

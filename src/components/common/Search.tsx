@@ -16,7 +16,7 @@ export const Search: FC<Props> = props => {
     const debounced = useDebouncedCallback(onSearch, 1000);
 
     return (
-        <div className={`flex flex-row gap-4 ${props.className} items-center`}>
+        <div className={`flex ${props.className} items-center`} style={{ zIndex: 0 }}>
             <form onSubmit={e => {
                 e.preventDefault();
                 onSearch(value);
