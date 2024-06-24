@@ -352,7 +352,13 @@ export interface RequestResultData {
      * @type {string}
      * @memberof RequestResultData
      */
-    'resultStatus'?: RequestResultDataResultStatusEnum;
+    'studentResultStatus'?: RequestResultDataStudentResultStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestResultData
+     */
+    'schoolResultStatus'?: RequestResultDataSchoolResultStatusEnum;
     /**
      * 
      * @type {string}
@@ -367,13 +373,20 @@ export interface RequestResultData {
     'offerGiven'?: boolean;
 }
 
-export const RequestResultDataResultStatusEnum = {
+export const RequestResultDataStudentResultStatusEnum = {
     Pending: 'Pending',
     Accepted: 'Accepted',
     Rejected: 'Rejected'
 } as const;
 
-export type RequestResultDataResultStatusEnum = typeof RequestResultDataResultStatusEnum[keyof typeof RequestResultDataResultStatusEnum];
+export type RequestResultDataStudentResultStatusEnum = typeof RequestResultDataStudentResultStatusEnum[keyof typeof RequestResultDataStudentResultStatusEnum];
+export const RequestResultDataSchoolResultStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
+} as const;
+
+export type RequestResultDataSchoolResultStatusEnum = typeof RequestResultDataSchoolResultStatusEnum[keyof typeof RequestResultDataSchoolResultStatusEnum];
 
 /**
  * 
@@ -386,7 +399,13 @@ export interface RequestResultUpdate {
      * @type {string}
      * @memberof RequestResultUpdate
      */
-    'resultStatus'?: RequestResultUpdateResultStatusEnum | null;
+    'studentResultStatus'?: RequestResultUpdateStudentResultStatusEnum | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestResultUpdate
+     */
+    'schoolResultStatus'?: RequestResultUpdateSchoolResultStatusEnum | null;
     /**
      * 
      * @type {string}
@@ -401,13 +420,20 @@ export interface RequestResultUpdate {
     'offerGiven'?: boolean | null;
 }
 
-export const RequestResultUpdateResultStatusEnum = {
+export const RequestResultUpdateStudentResultStatusEnum = {
     Pending: 'Pending',
     Accepted: 'Accepted',
     Rejected: 'Rejected'
 } as const;
 
-export type RequestResultUpdateResultStatusEnum = typeof RequestResultUpdateResultStatusEnum[keyof typeof RequestResultUpdateResultStatusEnum];
+export type RequestResultUpdateStudentResultStatusEnum = typeof RequestResultUpdateStudentResultStatusEnum[keyof typeof RequestResultUpdateStudentResultStatusEnum];
+export const RequestResultUpdateSchoolResultStatusEnum = {
+    Pending: 'Pending',
+    Accepted: 'Accepted',
+    Rejected: 'Rejected'
+} as const;
+
+export type RequestResultUpdateSchoolResultStatusEnum = typeof RequestResultUpdateSchoolResultStatusEnum[keyof typeof RequestResultUpdateSchoolResultStatusEnum];
 
 /**
  * 
