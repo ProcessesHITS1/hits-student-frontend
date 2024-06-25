@@ -28,7 +28,7 @@ export const Offers = () => {
                             key={x.id}
                             companyId={x.companyId} 
                             positionTitle={x.positionTitle!} 
-                            resultStatus={x.requestResult!.resultStatus!}                        
+                            resultStatus={x.requestResult!}                        
                         />
                     )
             }

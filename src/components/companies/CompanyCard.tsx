@@ -36,13 +36,13 @@ const CardHeader = (props: { companyName: string, onClick: () => void}) => {
 
 const CardBody = (props: { position: string, contact: string, tutor: string, nPos: number }) => {
     return (
-        <>
+        <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2">
                 <CommonText text={`${props.position} | ${getPositionsString(props.nPos)}`} className="text-black"/>
                 <CommonText text={props.contact} className="text-black/45"/>
             </div>
             <CommonText text={props.tutor} className="text-black/45"/>
-        </>
+        </div>
     );
 }
 

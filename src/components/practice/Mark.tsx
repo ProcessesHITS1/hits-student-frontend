@@ -2,12 +2,12 @@ import { FC, useMemo } from "react";
 import { H5 } from "../common/Headers";
 import { CommonText } from "../common/CommonText";
 
-type Props = {
+export type MarkProps = {
     mark?: number;
     description: string;
 }
 
-export const Mark: FC<Props> = ({ mark, description }) => {
+export const Mark: FC<MarkProps> = ({ mark, description }) => {
 
     const markColor = useMemo(() => {
         if (mark === undefined) return 'text-amber-200';
