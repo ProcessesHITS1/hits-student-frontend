@@ -23,6 +23,8 @@ export const SemesterContextProvider: FC<PropsWithChildren> = props => {
         refetch({ seasonId: season.id });
     }, [season]);
 
+    console.log('semesters', semesters);
+
     return (
         <SemesterContext.Provider value={semesters ?? []}>
             {props.children}

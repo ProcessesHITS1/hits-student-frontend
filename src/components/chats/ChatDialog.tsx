@@ -7,6 +7,7 @@ import { getUserClaims } from "../../infrastructure/user-claims";
 import { Message } from "../../infrastructure/signalr-utils";
 import { Attachment, AttachmentProps } from "./Attachment";
 import { chatsApi } from "../../infrastructure/api-clients";
+import { UploadFileWrapper } from "../common/UploadFileWrapper";
 
 type Props = {
     chatId?: string;
@@ -93,14 +94,11 @@ export const ChatDialog: FC<Props> = ({ chatId, onSend, messages }) => {
                 </div>
             }
             <form className="flex flex-row w-full h-10" onSubmit={sendMessage}>
-                <div className="flex w-10 h-full bg-slate-200 hover:cursor-pointer">
-                    <Input 
-                        type="file" 
-                        multiple 
-                        className="bg-transparent w-full h-full opacity-0"
-                        onChange={addAttachment}
-                    />
-                </div>
+                <UploadFileWrapper 
+                    mulitple
+                    className="flex w-10 h-full bg-slate-200 hover:cursor-pointer" 
+                    onChange={addAttachment}
+                />
                 <Input type="text" onChange={e => setInputMessage(e.target.value)} ref={inputRef}/>
                 <Button className="h-full w-10 bg-blue-500" />
             </form>

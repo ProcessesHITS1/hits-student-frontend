@@ -18,7 +18,7 @@ export const Mark: FC<MarkProps> = ({ mark, description }) => {
 
     return (
         <div className="flex flex-row gap-6 items-center">
-            <H5 text={mark ?? '-'} className={`text-base font-bold ${markColor}`}/>
+            <H5 text={mark ?? '-'} className={`text-base font-bold ${markColor} w-2`}/>
             <CommonText text={description} className="text-black"/>
         </div>
     );
