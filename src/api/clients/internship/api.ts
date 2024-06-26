@@ -78,6 +78,25 @@ export type AddDiaryFeedbackDtoAcceptanceStatusEnum = typeof AddDiaryFeedbackDto
 /**
  * 
  * @export
+ * @interface AddDiaryWithStudentIdDto
+ */
+export interface AddDiaryWithStudentIdDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AddDiaryWithStudentIdDto
+     */
+    'documentId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddDiaryWithStudentIdDto
+     */
+    'studentId'?: string;
+}
+/**
+ * 
+ * @export
  * @interface AddStudentToSemesterDto
  */
 export interface AddStudentToSemesterDto {
@@ -621,6 +640,46 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(addDiaryFeedbackDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Добавить дневник (ID студента).
+         * @param {AddDiaryWithStudentIdDto} addDiaryWithStudentIdDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addDiaryToStudent: async (addDiaryWithStudentIdDto: AddDiaryWithStudentIdDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'addDiaryWithStudentIdDto' is not null or undefined
+            assertParamExists('addDiaryToStudent', 'addDiaryWithStudentIdDto', addDiaryWithStudentIdDto)
+            const localVarPath = `/api/diaries/using-student-id`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(addDiaryWithStudentIdDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1589,6 +1648,19 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Добавить дневник (ID студента).
+         * @param {AddDiaryWithStudentIdDto} addDiaryWithStudentIdDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addDiaryToStudent(addDiaryWithStudentIdDto: AddDiaryWithStudentIdDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addDiaryToStudent(addDiaryWithStudentIdDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.addDiaryToStudent']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Добавить студентов в семестр.
          * @param {AddStudentsToSemesterDto} addStudentsToSemesterDto 
          * @param {*} [options] Override http request option.
@@ -1925,6 +1997,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Добавить дневник (ID студента).
+         * @param {AddDiaryWithStudentIdDto} addDiaryWithStudentIdDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addDiaryToStudent(addDiaryWithStudentIdDto: AddDiaryWithStudentIdDto, options?: any): AxiosPromise<void> {
+            return localVarFp.addDiaryToStudent(addDiaryWithStudentIdDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Добавить студентов в семестр.
          * @param {AddStudentsToSemesterDto} addStudentsToSemesterDto 
          * @param {*} [options] Override http request option.
@@ -2192,6 +2274,18 @@ export class DefaultApi extends BaseAPI {
      */
     public addDiaryFeedback(addDiaryFeedbackDto: AddDiaryFeedbackDto, options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).addDiaryFeedback(addDiaryFeedbackDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Добавить дневник (ID студента).
+     * @param {AddDiaryWithStudentIdDto} addDiaryWithStudentIdDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public addDiaryToStudent(addDiaryWithStudentIdDto: AddDiaryWithStudentIdDto, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).addDiaryToStudent(addDiaryWithStudentIdDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
