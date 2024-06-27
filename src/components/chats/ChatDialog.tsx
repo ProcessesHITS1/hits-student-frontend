@@ -12,6 +12,8 @@ import { useQuery } from "../../infrastructure/use-query";
 import { UserInfoDto } from "../../api/clients/auth";
 import { useAsyncEffect } from "../../infrastructure/use-async-effect";
 import { isRequestSuccessful } from "../../infrastructure/http-helpers";
+import chatIconBig from "../../assets/chats-big.svg";
+import { H5 } from "../common/Headers";
 
 type Props = {
     chatId?: string;
@@ -108,37 +110,47 @@ export const ChatDialog: FC<Props> = ({ chatId, onSend, messages }) => {
     }, [messages, chatScrollRef]);
 
     return (
-        <div className="w-full flex flex-col border border-slate-200 items-center justify-between">
-            <div className="p-2 w-full h-[76vh] block gap-2 overflow-y-scroll hidden-scrollbar" ref={inputRef}>
-                <div className="flex flex-col h-full w-full justify-end">
-                    {messages && messages.map(message => 
-                        <ChatMessage
-                            key={message.id} 
-                            text={message.message}
-                            authorName={membersInfo.find(x => x.id === message.author)?.firstName}
-                            isFromCurrentUser={message.author === getUserClaims()?.id}
-                            attachments={message.attachments?.map(a => ({...a as Required<typeof a>})) ?? []}
-                            chatId={message.chatId!}
-                            sentAt={message.sentAt}
-                        />
-                    )}
-                </div>
-            </div>
+        <>
             {
-                attachments.length > 0 &&
-                <div className="flex flex-row w-full justify-start gap-2 p-2 border-t border-e border-slate-200">
-                    {attachments.map(a => <Attachment name={a.name} mimeType={a.mimeType} />)}
+                chatId ?
+                <div className="w-full flex flex-col border border-slate-200 items-center justify-between">
+                    <div className="p-2 w-full h-[76vh] block gap-2 overflow-y-scroll hidden-scrollbar" ref={inputRef}>
+                        <div className="flex flex-col h-full w-full justify-end">
+                            {messages && messages.map(message => 
+                                <ChatMessage
+                                    key={message.id} 
+                                    text={message.message}
+                                    authorName={membersInfo.find(x => x.id === message.author)?.firstName}
+                                    isFromCurrentUser={message.author === getUserClaims()?.id}
+                                    attachments={message.attachments?.map(a => ({...a as Required<typeof a>})) ?? []}
+                                    chatId={message.chatId!}
+                                    sentAt={message.sentAt}
+                                />
+                            )}
+                        </div>
+                    </div>
+                    {
+                        attachments.length > 0 &&
+                        <div className="flex flex-row w-full justify-start gap-2 p-2 border-t border-e border-slate-200">
+                            {attachments.map(a => <Attachment name={a.name} mimeType={a.mimeType} />)}
+                        </div>
+                    }
+                    <form className="flex flex-row w-full h-10" onSubmit={sendMessage}>
+                        <UploadFileWrapper 
+                            mulitple
+                            className="flex w-10 h-full bg-slate-200 hover:cursor-pointer" 
+                            onChange={addAttachment}
+                        />
+                        <Input type="text" onChange={e => setInputMessage(e.target.value)} ref={inputRef}/>
+                        <Button className="h-full w-10 bg-blue-500" />
+                    </form>
                 </div>
+                : <div className="w-full h-full flex flex-col items-center justify-center gap-10">
+                    <img src={chatIconBig} className="w-60 h-60"/>
+                    <H5 text={"Выберите какой-нибудь чат и начните общаться!"} />
+                </div>
+
             }
-            <form className="flex flex-row w-full h-10" onSubmit={sendMessage}>
-                <UploadFileWrapper 
-                    mulitple
-                    className="flex w-10 h-full bg-slate-200 hover:cursor-pointer" 
-                    onChange={addAttachment}
-                />
-                <Input type="text" onChange={e => setInputMessage(e.target.value)} ref={inputRef}/>
-                <Button className="h-full w-10 bg-blue-500" />
-            </form>
-        </div>
+        </>
     )
 }
