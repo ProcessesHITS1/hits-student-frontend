@@ -24,7 +24,7 @@ export const ChatMessage: FC<ChatMessageProps> = props => {
                         {props.attachments.map(a => <AttachmentInMessage {...a} chatId={props.chatId} isFromCurrentUser={props.isFromCurrentUser} key={a.id}/>)}
                     </div>
                 }
-                {props.sentAt && <SmallCommonText text={new Date(props.sentAt).toLocaleString('ru')} className="text-black/45"/>}
+                {props.sentAt && <SmallCommonText text={new Date(props.sentAt).toLocaleString('ru')} className="text-black/45 text-end"/>}
             </div>
         </div>
     );

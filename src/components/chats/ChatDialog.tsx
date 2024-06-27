@@ -39,17 +39,17 @@ export const ChatDialog: FC<Props> = ({ chatId, onSend, messages }) => {
     }, [chatId]);
 
     useAsyncEffect(async () => {
-        if (!chatInfo?.members) return;
+        if (!chatInfo?.members || !chatInfo?.ownerId) return;
 
+        const memberIds = [...chatInfo.members, chatInfo.ownerId];
         const promises: Promise<UserInfoDto | undefined>[] = [];
-        chatInfo.members.forEach(
+        memberIds.forEach(
             memberId => promises.push(
                 authApi
                     .getUserInfo(memberId)
                     .then(response => isRequestSuccessful(response) ? response.data : undefined)
             )
         );
-
         const members = await Promise.all(promises);
         members.forEach(m => {
             if (m === undefined) return;
