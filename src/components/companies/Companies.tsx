@@ -22,12 +22,13 @@ export const Companies = () => {
     const [selectedPositionId, setSelectedPositionId] = useState<string | undefined>();
     const [searchKeyword, setSearchKeyword] = useState<string | undefined>(undefined);
     const { season } = useContext(SeasonContext);
-    console.log(`season ${season}`);
 
     const { isLoading, data: positions, refetch } = useQuery<QueryParams, PositionInfoPaginatedItems>(
         params => positionsApi.apiPositionSearchGet(
-            params?.year, [], params?.keyword, params?.page
-        )
+                params?.year ?? season?.year, [], params?.keyword, params?.page
+            ),
+        { year: season?.year ?? 2020, keyword: undefined, page: 1 },
+        false
     );
 
     const search = useCallback(
@@ -37,6 +38,7 @@ export const Companies = () => {
         }, 
         [refetch, season]
     );
+
 
     useEffect(() => {
         if (!season?.year) return;

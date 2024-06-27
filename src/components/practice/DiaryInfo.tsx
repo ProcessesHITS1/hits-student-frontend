@@ -5,7 +5,7 @@ import { DiaryUploadContainer } from "./DiaryUploadContainer"
 import { useQuery } from "../../infrastructure/use-query";
 import { thirdCourseApi } from "../../infrastructure/api-clients";
 import { UserInfoContext } from "../UserInfoContextProvider";
-import { DiaryDto } from "../../api/clients/internship";
+import { DiaryDto, DiaryFeedbackDtoAcceptanceStatusEnum } from "../../api/clients/internship";
 
 type Props = {
     semesterId: string;
@@ -18,7 +18,8 @@ export const DiaryInfo: FC<Props> = props => {
         params => {
             return thirdCourseApi.getStudentDiary(props.semesterId, params.studentId);
         },
-        { studentId: '3e914441-cd3d-4ec9-b5ca-12c3768dd4b8' }
+        { studentId: '3e914441-cd3d-4ec9-b5ca-12c3768dd4b8' },
+        false
     );
 
     useEffect(() => {
@@ -34,14 +35,21 @@ export const DiaryInfo: FC<Props> = props => {
                     <DiaryUploadContainer diary={diary} studentId={userInfo.id!}/>
                     <div className="flex flex-row gap-2 items-center justify-between">
                         <H5 text="Статус:" className="text-black"/>
-                        <CommonText text={diary?.diaryFeedback?.acceptanceStatus ?? "Отсутствует"} className="text-black/45"/>
+                        <CommonText text={statusToText(diary?.diaryFeedback?.acceptanceStatus)} className="text-black/45"/>
                     </div>
                     <div className="flex flex-col gap-2 items-start">
                         <H5 text="Комментарий:" className="text-black"/>
-                        <CommonText text={diary?.diaryFeedback?.comments ?? "Здесь могла быть ваша реклама. Амогус."} className="text-black/45"/>
+                        <CommonText text={diary?.diaryFeedback?.comments ?? "Коментариев пока нет."} className="text-black/45"/>
                     </div>
                 </div>
             }
         </>
     )
+}
+
+function statusToText(status?: DiaryFeedbackDtoAcceptanceStatusEnum) {
+    if (status === 'ACCEPTED') return 'Принято';
+    else if (status === 'REJECTED') return 'Отклонено';
+
+    return 'Не оценено';
 }

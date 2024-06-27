@@ -79,7 +79,10 @@ const PositionDesciptionCardBody = (props: {companyId: string}) => {
         <div className="flex flex-col gap-2 w-full">
             <div className="flex flex-col gap-1 items-start w-full">
                 <H5 text={"Контакты"} className="text-black"/>
-                <Contact name={company?.contacts?.[0] ?? ''} phone="+79095483131"/>
+                {
+                    company?.contacts &&
+                    company.contacts.map(x => <Contact name={x} />)
+                }
             </div>
             <div className="flex flex-col gap-1 items-start w-full">
                 <H5 text={"Куратор"} className="text-black"/>

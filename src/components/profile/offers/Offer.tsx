@@ -22,7 +22,7 @@ export const Offer: FC<Props> = props => {
         <UnderlinedItem>
             <div className="flex flex-row gap-4 items-center">
                 <div className="w-8 h-8 bg-blue-300 rounded-full"></div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 items-start">
                     {company?.name && <H5 text={company.name} />}
                     <CommonText text={props.positionTitle}/>
                 </div>

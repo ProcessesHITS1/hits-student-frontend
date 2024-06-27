@@ -43,7 +43,6 @@ export function useQuery<TParams, TResult>(
         async (params?: TParams) => {
             setIsLoading(true);
             const response = await request(params ?? defaultParams);
-            console.log(response);
             setIsLoading(false);
 
             if (!response.data) return;

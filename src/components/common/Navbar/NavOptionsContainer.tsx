@@ -45,8 +45,6 @@ export const NavOptionsContainer: FC<Props> = props => {
         false  
     );
 
-    console.log(requests);
-
     useEffect(() => {
         if (season?.year === undefined) return;
 

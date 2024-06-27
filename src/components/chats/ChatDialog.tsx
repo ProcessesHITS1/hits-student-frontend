@@ -6,8 +6,12 @@ import { MessageDto } from "../../api/clients/chats";
 import { getUserClaims } from "../../infrastructure/user-claims";
 import { Message } from "../../infrastructure/signalr-utils";
 import { Attachment, AttachmentProps } from "./Attachment";
-import { chatsApi } from "../../infrastructure/api-clients";
+import { authApi, chatsApi } from "../../infrastructure/api-clients";
 import { UploadFileWrapper } from "../common/UploadFileWrapper";
+import { useQuery } from "../../infrastructure/use-query";
+import { UserInfoDto } from "../../api/clients/auth";
+import { useAsyncEffect } from "../../infrastructure/use-async-effect";
+import { isRequestSuccessful } from "../../infrastructure/http-helpers";
 
 type Props = {
     chatId?: string;
@@ -16,9 +20,40 @@ type Props = {
 }
 
 export const ChatDialog: FC<Props> = ({ chatId, onSend, messages }) => {
-    console.log(messages);
     const chatScrollRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const [membersInfo, setMembersInfo] = useState<UserInfoDto[]>([]);
+
+    const { data: chatInfo, refetch: refetchMembers } = useQuery(
+        params => chatsApi.chatsGroupIdGet(params.chatId),
+        { chatId: '' },
+        false
+    );
+
+    useEffect(() => {
+        if (!chatId) return;
+        refetchMembers({ chatId })
+    }, [chatId]);
+
+    useAsyncEffect(async () => {
+        if (!chatInfo?.members) return;
+
+        const promises: Promise<UserInfoDto | undefined>[] = [];
+        chatInfo.members.forEach(
+            memberId => promises.push(
+                authApi
+                    .getUserInfo(memberId)
+                    .then(response => isRequestSuccessful(response) ? response.data : undefined)
+            )
+        );
+
+        const members = await Promise.all(promises);
+        members.forEach(m => {
+            if (m === undefined) return;
+            setMembersInfo(prev => [...prev, m]);
+        });
+    }, [chatInfo]);
 
     const [inputMessage, setInputMessage] = useState<string | undefined>("");
     
@@ -70,7 +105,7 @@ export const ChatDialog: FC<Props> = ({ chatId, onSend, messages }) => {
         if (chatScrollRef.current) {
             chatScrollRef.current.scrollTop = chatScrollRef.current?.scrollHeight;
         }
-    }, [messages, chatScrollRef])
+    }, [messages, chatScrollRef]);
 
     return (
         <div className="w-full flex flex-col border border-slate-200 items-center justify-between">
@@ -80,9 +115,11 @@ export const ChatDialog: FC<Props> = ({ chatId, onSend, messages }) => {
                         <ChatMessage
                             key={message.id} 
                             text={message.message}
+                            authorName={membersInfo.find(x => x.id === message.author)?.firstName}
                             isFromCurrentUser={message.author === getUserClaims()?.id}
                             attachments={message.attachments?.map(a => ({...a as Required<typeof a>})) ?? []}
                             chatId={message.chatId!}
+                            sentAt={message.sentAt}
                         />
                     )}
                 </div>

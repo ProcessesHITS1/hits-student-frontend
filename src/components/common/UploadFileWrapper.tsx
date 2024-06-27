@@ -17,7 +17,7 @@ export const UploadFileWrapper: FC<Props> = props => {
                 id="uploadfile" 
                 onChange={props.onChange}
             />
-            <label htmlFor="uploadfile" className="w-full h-full z-10" onClick={e => console.log(e)}>
+            <label htmlFor="uploadfile" className="w-full h-full z-10">
                 {props.children}
             </label>
         </div>

@@ -23,8 +23,6 @@ export const Progress: FC = () => {
         () => requestApi.apiRequestRequestIdGet(requestId!)
     );
 
-    console.log(request);
-
     return (
         <PageWithHeader headerText={request?.positionTitle ?? ''}>
             <div className="flex flex-col-reverse sm:flex-row gap-8 px-4 py-6">

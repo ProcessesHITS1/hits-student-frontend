@@ -70,7 +70,7 @@ const SemesterInfoBody: FC<Props> = ({ semester }) => {
         <div className="flex flex-col gap-2 items-start px-4">
             <H5 text="Оценки" className="text-black"/>
             <div className="flex flex-col gap-2">
-                {
+                {   
                     mergedMarks.map(m => 
                         <Mark {...m} key={m.description}/>
                     )

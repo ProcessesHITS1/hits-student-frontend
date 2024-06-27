@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3006",
     "start": "cross-env VITE_AUTH_ENABLED=true npm run dev",
     "start-no-auth": "cross-env VITE_AUTH_ENABLED=false npm run dev",
     "build": "tsc && vite build",
